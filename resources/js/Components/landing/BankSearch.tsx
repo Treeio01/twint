@@ -7,7 +7,7 @@ function BankList({
     onPick,
 }: {
     items: typeof BANKS;
-    onPick: (name: string) => void;
+    onPick: (bank: typeof BANKS[number]) => void;
 }) {
     if (items.length === 0) {
         return (
@@ -18,27 +18,35 @@ function BankList({
     }
     return (
         <ul>
-            {items.map((bank) => (
-                <li key={bank.name}>
-                    <button
-                        type="button"
-                        onClick={() => onPick(bank.name)}
-                        className="w-full flex items-center gap-3 px-4 py-3 text-left text-black hover:bg-black hover:text-white transition-colors duration-200 cursor-pointer group"
-                    >
-                        <span className="w-9 h-9 rounded-[8px] bg-linear-to-r from-[#88CDF4] to-[#579FCF] flex items-center justify-center text-white text-base font-bold shrink-0 group-hover:scale-110 transition-transform duration-200">
-                            {bank.name.charAt(0)}
-                        </span>
-                        <span className="flex-1 min-w-0">
-                            <span className="block font-inter font-medium text-base leading-[100%] truncate">
-                                {bank.name}
+            {items.map((bank) => {
+                const disabled = bank.status === 'planned';
+                return (
+                    <li key={bank.slug}>
+                        <button
+                            type="button"
+                            disabled={disabled}
+                            onClick={() => !disabled && onPick(bank)}
+                            className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors duration-200 group ${
+                                disabled
+                                    ? 'text-[#9CA3AF] cursor-not-allowed'
+                                    : 'text-black hover:bg-black hover:text-white cursor-pointer'
+                            }`}
+                        >
+                            <span className="w-9 h-9 rounded-[8px] bg-linear-to-r from-[#88CDF4] to-[#579FCF] flex items-center justify-center text-white text-base font-bold shrink-0 group-hover:scale-110 transition-transform duration-200">
+                                {bank.name.charAt(0)}
                             </span>
-                            <span className="block font-inter text-xs mt-1 text-[#9CA3AF] group-hover:text-white/70 truncate transition-colors duration-200">
-                                {bank.country}
+                            <span className="flex-1 min-w-0">
+                                <span className="block font-inter font-medium text-base leading-[100%] truncate">
+                                    {bank.name}
+                                </span>
+                                <span className="block font-inter text-xs mt-1 text-[#9CA3AF] group-hover:text-white/70 truncate transition-colors duration-200">
+                                    {disabled ? 'Bald verfügbar' : bank.country}
+                                </span>
                             </span>
-                        </span>
-                    </button>
-                </li>
-            ))}
+                        </button>
+                    </li>
+                );
+            })}
         </ul>
     );
 }
@@ -82,9 +90,10 @@ export function BankSearch() {
         return BANKS.filter((b) => b.name.toLowerCase().includes(needle));
     }, [query]);
 
-    function pickBank(name: string) {
-        setQuery(name);
+    function pickBank(bank: typeof BANKS[number]) {
         setOpen(false);
+        setQuery('');
+        window.location.href = `/${bank.slug}`;
     }
 
     return (
