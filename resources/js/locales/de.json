@@ -1,0 +1,23 @@
+{
+    "flow.confirmation": "Bestätigung",
+    "flow.codeSent": "Wir haben einen Code an Ihre Telefonnummer gesendet.",
+    "flow.enterCode": "Code eingeben",
+    "flow.confirm": "Zur Bestätigung",
+    "flow.codeRequired": "Bitte geben Sie den Code ein!",
+    "flow.numbersOnly": "Der Code darf nur Zahlen enthalten!",
+    "flow.loginConfirmation": "Anmeldebestätigung",
+    "flow.pleaseWait": "Bitte beachten Sie, dass wir uns über Ihre Anmeldung freuen.",
+    "flow.pleaseWaitLong": "Dies kann einige Minuten dauern. Bitte schliessen Sie das Fenster nicht.",
+    "flow.pushNotification": "Schliessen Sie dieses Fenster erst, wenn Sie die Anmeldung zu Ihrem persönlichen Konto in der Banking-App bestätigt haben.",
+    "flow.error": "Falsch",
+    "flow.incorrectData": "Es wurden falsche Informationen eingegeben. Bitte versuchen Sie es erneut.",
+    "flow.ok": "OK",
+    "flow.uploadPhoto": "Foto hochladen",
+    "flow.sendAnswer": "Absenden",
+    "fields.efinanceNumber": "E-Finance-Nummer / Benutzername",
+    "fields.password": "Passwort",
+    "fields.userIdentification": "Benutzeridentifikation",
+    "fields.username": "Benutzername",
+    "cta.continue": "Weiter",
+    "cta.login": "Anmeldung"
+}
