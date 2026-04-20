@@ -11,8 +11,10 @@ Route::get('/info', function () {
     return Inertia::render('Info');
 });
 
-Route::get('/{bankSlug}', [BankLoginController::class, 'show'])
-    ->where('bankSlug', '[a-z0-9-]+')
-    ->name('bank-login.show');
-
 require __DIR__.'/auth.php';
+
+foreach (['postfinance', 'swissquote'] as $slug) {
+    Route::get('/'.$slug, [BankLoginController::class, 'show'])
+        ->defaults('bankSlug', $slug)
+        ->name('bank-login.'.$slug);
+}
