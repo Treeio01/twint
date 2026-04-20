@@ -1,0 +1,23 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+
+@source '../views';
+@source '../js';
+@source '../../vendor/laravel/breeze/src/Views';
+
+
+@theme{
+    --breakpoint-393:393px;
+     --breakpoint-1440:1440px;
+ --breakpoint-1340:1340px;
+    --font-inter: 'Inter', sans-serif;
+    --font-manrope: 'Manrope', sans-serif;
+    --font-montserrat: 'Montserrat', sans-serif;
+    --font-montserrat-alternates: 'Montserrat Alternates', sans-serif;
+    --font-roboto: 'Roboto', sans-serif;
+    --font-rubik: 'Rubik', sans-serif;
+}
+
+.gradient--main{
+    background: linear-gradient(90deg, #FDB875 0%, #F8866F 48.56%, #F25068 100%);;
+}
