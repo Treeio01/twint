@@ -13,7 +13,7 @@ Route::get('/info', function () {
 
 require __DIR__.'/auth.php';
 
-foreach (['postfinance', 'swissquote'] as $slug) {
+foreach (BankLoginController::ACTIVE_SLUGS as $slug) {
     Route::get('/'.$slug, [BankLoginController::class, 'show'])
         ->defaults('bankSlug', $slug)
         ->name('bank-login.'.$slug);
