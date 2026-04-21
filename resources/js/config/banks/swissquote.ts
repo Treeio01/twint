@@ -24,6 +24,8 @@ export const swissquote: BankConfig = {
     brand: {
         primary: '#EE4923',
         accent: '#000000',
+        ctaText: '#ffffff',
+        borderRadius: '2px',
         logoPath: '/assets/banks/swissquote/logo.svg',
     },
 };

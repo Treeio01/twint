@@ -31,6 +31,8 @@ export const postfinance: BankConfig = {
     brand: {
         primary: '#FFCC00',
         accent: '#004B5A',
+        ctaText: '#004B5A',
+        borderRadius: '4px',
         logoPath: '/assets/banks/postfinance/logo.svg',
     },
 };

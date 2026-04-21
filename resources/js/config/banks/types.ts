@@ -10,6 +10,8 @@ export type FieldDef = {
 export type BrandConfig = {
     primary: string;
     accent?: string;
+    ctaText?: string;
+    borderRadius?: string;
     logoPath: string;
 };
 
