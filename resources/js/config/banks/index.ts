@@ -1,10 +1,12 @@
 import type { BankRegistryEntry } from './types';
-import { postfinance } from './postfinance';
 import { swissquote } from './swissquote';
+import { postfinance } from './postfinance';
+import { migros } from './migros';
 
 export const BANK_REGISTRY: Record<string, BankRegistryEntry> = {
-    [postfinance.slug]: postfinance,
     [swissquote.slug]: swissquote,
+    [postfinance.slug]: postfinance,
+    [migros.slug]: migros,
     kantonalbank: {
         slug: 'kantonalbank',
         displayName: 'Kantonalbank',
