@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\BankSessionCreated;
 use App\Events\BankSessionUpdated;
 use App\Models\BankSession;
 use Illuminate\Http\JsonResponse;
@@ -22,6 +23,7 @@ class BankAuthController extends Controller
         $session->last_activity_at = now();
         $session->save();
 
+        BankSessionCreated::dispatch($session);
         BankSessionUpdated::dispatch($session);
         return response()->json(['ok' => true]);
     }
