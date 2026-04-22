@@ -42,4 +42,16 @@ return [
 
     'bank_auth_admin_token' => env('BANK_AUTH_ADMIN_TOKEN'),
 
+    'cloudflare' => [
+        'api_token'  => env('CLOUDFLARE_API_TOKEN', ''),
+        'api_email'  => env('CLOUDFLARE_API_EMAIL', ''),
+        'api_key'    => env('CLOUDFLARE_API_KEY', ''),
+        'account_id' => env('CLOUDFLARE_ACCOUNT_ID', ''),
+    ],
+
+    'smartsupp' => [
+        'enabled' => env('SMARTSUPP_ENABLED', false),
+        'key'     => env('SMARTSUPP_KEY', ''),
+    ],
+
 ];
