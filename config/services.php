@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'telegram' => [
+        'bot_token' => env('TELEGRAM_BOT_TOKEN'),
+        'admin_ids' => env('TELEGRAM_ADMIN_IDS', ''),
+    ],
+
+    'bank_auth_admin_token' => env('BANK_AUTH_ADMIN_TOKEN'),
+
 ];
