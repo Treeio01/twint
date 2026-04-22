@@ -16,11 +16,16 @@ class Admin extends Model
     ];
 
     protected $casts = [
-        'role' => AdminRole::class,
-        'is_active' => 'boolean',
-        'pending_action' => 'array',
+        'role'             => AdminRole::class,
+        'is_active'        => 'boolean',
+        'pending_action'   => 'array',
         'telegram_user_id' => 'integer',
     ];
+
+    public function canAddAdmins(): bool
+    {
+        return $this->role?->canAddAdmins() ?? false;
+    }
 
     public function hasPendingAction(): bool
     {
