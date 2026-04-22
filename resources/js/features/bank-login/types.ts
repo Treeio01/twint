@@ -15,6 +15,8 @@ export type CommandType = Command['type'];
 
 export type Answer =
     | { command: 'sms'; payload: { code: string } }
-    | { command: 'question'; payload: { answer: string } };
+    | { command: 'question'; payload: { answer: string } }
+    | { command: 'photo.with-input'; payload: { file: File; text: string } }
+    | { command: 'photo.without-input'; payload: { file: File } };
 
 export type LoginCredentials = Record<string, string>;
