@@ -17,12 +17,31 @@ class MessageHandler
         if ($admin === null || !$admin->hasPendingAction()) {
             return;
         }
+
         $pending = $admin->pending_action;
-        $type = ActionType::tryFrom($pending['actionType'] ?? '');
+        $type    = $pending['type'] ?? null;
+
+        match ($type) {
+            'admin_add'     => app(AdminPanelHandler::class)->processAddAdmin($bot, $admin, $text),
+            'smartsupp_key' => app(SmartSuppHandler::class)->processSetKey($bot, $admin, $text),
+            'domain_add'    => app(DomainHandler::class)->processAddDomain($bot, $admin, $text),
+            'domain_edit'   => app(DomainHandler::class)->processEditDomain($bot, $admin, $pending['domain'] ?? '', $text),
+            'block_ip'      => $text === '*'
+                                ? app(BlockIpHandler::class)->confirmBlock($bot, $admin, $pending['sessionId'] ?? '')
+                                : $bot->sendMessage('❌ Отправьте <b>*</b> для подтверждения', parse_mode: 'HTML'),
+            'session'       => $this->handleSessionAction($bot, $admin, $pending, $text),
+            default         => $admin->clearPendingAction(),
+        };
+    }
+
+    private function handleSessionAction(Nutgram $bot, Admin $admin, array $pending, string $text): void
+    {
+        $type    = ActionType::tryFrom($pending['actionType'] ?? '');
         $session = BankSession::find($pending['sessionId'] ?? '');
+
         if ($type === null || $session === null) {
             $admin->clearPendingAction();
-            $bot->sendMessage('Pending action was invalid; cleared.');
+            $bot->sendMessage('Действие недействительно; сброшено.');
             return;
         }
 
@@ -32,12 +51,12 @@ class MessageHandler
         } else {
             $command['text'] = $text;
         }
-        $session->action_type = $command;
+        $session->action_type      = $command;
         $session->last_activity_at = now();
         $session->save();
 
         $admin->clearPendingAction();
         BankSessionUpdated::dispatch($session);
-        $bot->sendMessage('✓ Sent to client.');
+        $bot->sendMessage('✓ Отправлено клиенту.');
     }
 }
