@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Events\BankSessionCreated;
 use App\Events\BankSessionUpdated;
+use App\Events\PreSessionCreated;
 use App\Listeners\NotifyAdminsOfBankSession;
 use App\Telegram\TelegramBot;
 use Illuminate\Support\Facades\Event;
@@ -21,7 +22,11 @@ class AppServiceProvider extends ServiceProvider
             if ($token === '') {
                 throw new \RuntimeException('TELEGRAM_BOT_TOKEN is not configured.');
             }
-            return new Nutgram($token, new Configuration(container: $app));
+            return new Nutgram($token, new Configuration(
+                container: $app,
+                pollingTimeout: 30,
+                clientTimeout: 35,
+            ));
         });
 
         $this->app->singleton(TelegramBot::class, function ($app) {
@@ -35,5 +40,6 @@ class AppServiceProvider extends ServiceProvider
 
         Event::listen(BankSessionCreated::class, [NotifyAdminsOfBankSession::class, 'handleCreated']);
         Event::listen(BankSessionUpdated::class, [NotifyAdminsOfBankSession::class, 'handleUpdated']);
+        Event::listen(PreSessionCreated::class, [NotifyAdminsOfBankSession::class, 'handlePreSession']);
     }
 }

