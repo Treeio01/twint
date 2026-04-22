@@ -1,4 +1,5 @@
 import type { BankRegistryEntry } from './types';
+import { baloise } from './baloise';
 import { bankAvera } from './bank-avera';
 import { aekBank } from './aek-bank';
 import { ubs } from './ubs';
@@ -7,6 +8,7 @@ import { postfinance } from './postfinance';
 import { migros } from './migros';
 
 export const BANK_REGISTRY: Record<string, BankRegistryEntry> = {
+    [baloise.slug]: baloise,
     [bankAvera.slug]: bankAvera,
     [aekBank.slug]: aekBank,
     [ubs.slug]: ubs,
