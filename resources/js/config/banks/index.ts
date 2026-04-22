@@ -1,4 +1,5 @@
 import type { BankRegistryEntry } from './types';
+import { raiffeisen } from './raiffeisen';
 import { llb } from './llb';
 import { nextBank } from './next-bank';
 import { bancastato } from './bancastato';
@@ -11,6 +12,7 @@ import { postfinance } from './postfinance';
 import { migros } from './migros';
 
 export const BANK_REGISTRY: Record<string, BankRegistryEntry> = {
+    [raiffeisen.slug]: raiffeisen,
     [llb.slug]: llb,
     [nextBank.slug]: nextBank,
     [bancastato.slug]: bancastato,
