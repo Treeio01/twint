@@ -17,13 +17,18 @@ class ActionHandler
 
         $type = ActionType::tryFrom($actionType);
         if ($type === null) {
-            $bot->answerCallbackQuery(text: '⚠️ Unknown action');
+            $bot->answerCallbackQuery(text: '⚠️ Неизвестное действие');
             return;
         }
 
         $session = BankSession::find($sessionId);
         if ($session === null) {
-            $bot->answerCallbackQuery(text: '⚠️ Session not found');
+            $bot->answerCallbackQuery(text: '⚠️ Сессия не найдена');
+            return;
+        }
+
+        if ($session->isAssigned() && $session->admin_id !== $admin->id) {
+            $bot->answerCallbackQuery(text: '❌ Сессия назначена другому оператору', show_alert: true);
             return;
         }
 
@@ -34,12 +39,13 @@ class ActionHandler
 
         if ($type->requiresText() || $type->requiresUrl()) {
             $admin->setPendingAction([
+                'type'      => 'session',
                 'sessionId' => $session->id,
-                'actionType' => $type->value,
+                'actionType'=> $type->value,
             ]);
             $prompt = $type->requiresUrl()
-                ? 'Send the redirect URL as next message.'
-                : 'Send the text for the ' . $type->value . ' as next message.';
+                ? 'Отправьте URL для редиректа следующим сообщением.'
+                : 'Отправьте текст для ' . $type->value . ' следующим сообщением.';
             $bot->answerCallbackQuery();
             $bot->sendMessage($prompt);
             return;
