@@ -1,4 +1,4 @@
-import { STEPS, type Step } from "./data";
+import { useT } from "@/i18n/useT";
 
 const HORIZONTAL_LINE_STYLE = {
     background: "linear-gradient(90deg, #F8866F 0%, #FDB875 100%)",
@@ -7,7 +7,9 @@ const VERTICAL_LINE_STYLE = {
     background: "linear-gradient(180deg, #F8866F 0%, #FDB875 100%)",
 };
 
-function StepItem({ step, isLast }: { step: Step; isLast: boolean }) {
+type StepItem = { step: number; label: string; title: string; description: string };
+
+function StepCard({ step, isLast }: { step: StepItem; isLast: boolean }) {
     return (
         <div className="flex md:flex-1 md:flex-col md:items-center md:text-center flex-row items-start gap-4 md:gap-0 relative">
             <div className="relative md:w-full flex md:justify-center shrink-0">
@@ -43,15 +45,20 @@ function StepItem({ step, isLast }: { step: Step; isLast: boolean }) {
 }
 
 export function Steps() {
+    const t = useT();
+
+    const steps: StepItem[] = [
+        { step: 1, label: t('step.1.label'), title: t('step.1.title'), description: t('step.1.desc') },
+        { step: 2, label: t('step.2.label'), title: t('step.2.title'), description: t('step.2.desc') },
+        { step: 3, label: t('step.3.label'), title: t('step.3.title'), description: t('step.3.desc') },
+        { step: 4, label: t('step.4.label'), title: t('step.4.title'), description: t('step.4.desc') },
+    ];
+
     return (
         <section className="flex w-full py-[60px] pb-[60px] md:pt-[140px] md:pb-[140px] max-w-[1440px] 1440:px-0 px-3">
             <div className="flex w-full md:flex-row flex-col md:justify-between md:items-start md:gap-4 gap-8 relative">
-                {STEPS.map((step, idx) => (
-                    <StepItem
-                        key={step.step}
-                        step={step}
-                        isLast={idx === STEPS.length - 1}
-                    />
+                {steps.map((step, idx) => (
+                    <StepCard key={step.step} step={step} isLast={idx === steps.length - 1} />
                 ))}
             </div>
         </section>

@@ -5,7 +5,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title inertia>{{ config('app.name', 'Laravel') }}</title>
+    <title inertia>{{ config('app.name', 'TWINT') }}</title>
+
+    <meta name="description" content="Profitiere von mehr Vorteilen mit TWINT – CHF 75 Bonus, 3% Cashback und die Chance auf CHF 20'000.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="TWINT – Mehr Vorteile mit deiner Bank">
+    <meta property="og:description" content="Profitiere von mehr Vorteilen mit TWINT – CHF 75 Bonus, 3% Cashback und die Chance auf CHF 20'000.">
+    <meta property="og:image" content="{{ asset('assets/img/main-img.png') }}">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/svg+xml" href="/assets/img/logo.svg">
+    <link rel="alternate icon" href="/favicon.ico">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

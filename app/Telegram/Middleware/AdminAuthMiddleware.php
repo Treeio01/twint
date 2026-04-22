@@ -7,7 +7,7 @@ use SergiX44\Nutgram\Nutgram;
 
 class AdminAuthMiddleware
 {
-    public function __invoke(Nutgram $bot, \Closure $next): void
+    public function __invoke(Nutgram $bot, $next): void
     {
         $userId = $bot->userId();
         if ($userId === null) {

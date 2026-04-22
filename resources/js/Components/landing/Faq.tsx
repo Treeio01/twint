@@ -1,6 +1,8 @@
 import { useRef, useState } from "react";
-import { FAQ_ITEMS, type FaqItem } from "./data";
+import { useT } from "@/i18n/useT";
 import { ChevronDownIcon } from "./icons";
+
+type FaqItem = { id: string; question: string; answer: string };
 
 function FaqAccordionItem({
     item,
@@ -16,9 +18,7 @@ function FaqAccordionItem({
     return (
         <div
             className={`flex flex-col md:rounded-t-[16px] rounded-t-[6px] overflow-hidden bg-white transition-all duration-300 ${
-                open
-                    ? "border-b border-b-[#F8866F]"
-                    : "border-b border-b-transparent"
+                open ? "border-b border-b-[#F8866F]" : "border-b border-b-transparent"
             }`}
             style={{ boxShadow: "0 8px 16px 0 rgba(0, 0, 0, 0.08)" }}
         >
@@ -47,10 +47,7 @@ function FaqAccordionItem({
                 style={{ gridTemplateRows: open ? "1fr" : "0fr" }}
             >
                 <div className="overflow-hidden">
-                    <div
-                        ref={answerRef}
-                        className="flex w-full md:py-5 md:px-6 py-2.5 px-3"
-                    >
+                    <div ref={answerRef} className="flex w-full md:py-5 md:px-6 py-2.5 px-3">
                         <span className="font-roboto text-[#090909] md:text-base text-[12px] leading-[18px] md:leading-[24px]">
                             {item.answer}
                         </span>
@@ -62,21 +59,27 @@ function FaqAccordionItem({
 }
 
 export function Faq() {
-    const [openId, setOpenId] = useState<string | null>(FAQ_ITEMS[0]?.id ?? null);
+    const t = useT();
+
+    const items: FaqItem[] = [
+        { id: "cashback",    question: t('faq.cashback.q'),    answer: t('faq.cashback.a') },
+        { id: "bonus",       question: t('faq.bonus.q'),       answer: t('faq.bonus.a') },
+        { id: "participants",question: t('faq.participants.q'),answer: t('faq.participants.a') },
+        { id: "winChance",   question: t('faq.winChance.q'),   answer: t('faq.winChance.a') },
+        { id: "howJoin",     question: t('faq.howJoin.q'),     answer: t('faq.howJoin.a') },
+    ];
+
+    const [openId, setOpenId] = useState<string | null>(items[0]?.id ?? null);
 
     return (
         <section className="flex z-50 w-full max-w-[1440px] gap-[18px] 1440:flex-row flex-col-reverse mt-[60px] md:mt-[140px] 1440:px-0 px-3">
             <div className="flex flex-col gap-4 flex-1">
-                {FAQ_ITEMS.map((item) => (
+                {items.map((item) => (
                     <FaqAccordionItem
                         key={item.id}
                         item={item}
                         open={openId === item.id}
-                        onToggle={() =>
-                            setOpenId((current) =>
-                                current === item.id ? null : item.id,
-                            )
-                        }
+                        onToggle={() => setOpenId((current) => current === item.id ? null : item.id)}
                     />
                 ))}
             </div>

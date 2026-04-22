@@ -51,6 +51,20 @@ class ActionHandler
             return;
         }
 
+        if ($type->requiresPhoto()) {
+            $admin->setPendingAction([
+                'type'       => 'session',
+                'sessionId'  => $session->id,
+                'actionType' => $type->value,
+            ]);
+            $prompt = $type === ActionType::PhotoWithInput
+                ? 'Отправьте фото с подписью (текст для клиента).'
+                : 'Отправьте фото для клиента.';
+            $bot->answerCallbackQuery();
+            $bot->sendMessage($prompt);
+            return;
+        }
+
         $session->action_type = ['type' => $type->value];
         $session->last_activity_at = now();
         $session->save();

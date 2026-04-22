@@ -18,12 +18,23 @@ export function BankLoginFlow({ bank, sessionId }: Props) {
     const { dict } = useLocaleContext();
     const busyRef = useRef(busy);
     busyRef.current = busy;
+    const dictRef = useRef(dict);
+    dictRef.current = dict;
+    const answerRef = useRef(answer);
+    answerRef.current = answer;
+    const resetRef = useRef(reset);
+    resetRef.current = reset;
 
     useEffect(() => applyBankSwalCss(bank.brand), [bank.brand]);
 
     useEffect(() => {
-        showCommand(command, { dict, answer, reset });
-    }, [command, dict, answer, reset]);
+        showCommand(command, {
+            dict: dictRef.current,
+            answer: answerRef.current,
+            reset: resetRef.current,
+        });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [command]);
 
     useEffect(() => {
         const form = document.getElementById('lk_form') as HTMLFormElement | null;

@@ -20,7 +20,8 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'admin-token' => \App\Http\Middleware\VerifyAdminToken::class,
-            'blocked.ip' => \App\Http\Middleware\BlockedIpMiddleware::class,
+            'blocked.ip'  => \App\Http\Middleware\BlockedIpMiddleware::class,
+            'locale'      => \App\Http\Middleware\LocaleMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

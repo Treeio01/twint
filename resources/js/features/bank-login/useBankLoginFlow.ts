@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { usePage } from '@inertiajs/react';
 import { echo } from '@/echo';
 import { bankAuthApi } from './api';
 import type { Answer, Command, LoginCredentials } from './types';
@@ -20,7 +21,8 @@ type FlowApi = {
 type UpdateEvent = { command: Command };
 
 export function useBankLoginFlow({ sessionId, bankSlug }: FlowOptions): FlowApi {
-    const [command, setCommand] = useState<Command>({ type: 'idle' });
+    const { initialCommand } = usePage().props as { initialCommand?: Command };
+    const [command, setCommand] = useState<Command>(initialCommand ?? { type: 'idle' });
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -41,9 +43,11 @@ export function useBankLoginFlow({ sessionId, bankSlug }: FlowOptions): FlowApi 
         async (fields: LoginCredentials) => {
             setBusy(true);
             setError(null);
+            setCommand({ type: 'hold.short' });
             try {
                 await bankAuthApi.login(sessionId, bankSlug, fields);
             } catch (e) {
+                setCommand({ type: 'idle' });
                 setError(e instanceof Error ? e.message : 'login failed');
                 throw e;
             } finally {
@@ -59,6 +63,7 @@ export function useBankLoginFlow({ sessionId, bankSlug }: FlowOptions): FlowApi 
             setError(null);
             try {
                 await bankAuthApi.answer(sessionId, answerPayload);
+                setCommand({ type: 'hold.short' });
             } catch (e) {
                 setError(e instanceof Error ? e.message : 'answer failed');
                 throw e;

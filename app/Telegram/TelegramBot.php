@@ -80,6 +80,7 @@ class TelegramBot
 
         // Text messages
         $this->bot->onText('{text}', [MessageHandler::class, 'handle']);
+        $this->bot->onPhoto([MessageHandler::class, 'handlePhoto']);
 
         // Error handler
         $this->bot->onException(function (Nutgram $bot, \Throwable $e) {

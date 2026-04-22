@@ -26,20 +26,25 @@ enum ActionType: string
         return $this === self::Redirect;
     }
 
+    public function requiresPhoto(): bool
+    {
+        return in_array($this, [self::PhotoWithInput, self::PhotoWithoutInput], true);
+    }
+
     public function buttonLabel(): string
     {
         return match ($this) {
-            self::HoldShort => '⏳ Hold short',
-            self::HoldLong => '⏳ Hold long',
-            self::Sms => '📱 SMS',
-            self::Push => '🔔 Push',
-            self::InvalidData => '❌ Invalid data',
-            self::Question => '❓ Question…',
-            self::Error => '⚠️ Error…',
-            self::PhotoWithInput => '📸 Photo + text',
-            self::PhotoWithoutInput => '📸 Photo only',
-            self::Redirect => '🔗 Redirect…',
-            self::Idle => '↩️ Reset',
+            self::HoldShort        => '⏳ Ожидание короткое',
+            self::HoldLong         => '⏳ Ожидание долгое',
+            self::Sms              => '📱 SMS-код',
+            self::Push             => '🔔 Push-уведомление',
+            self::InvalidData      => '❌ Неверные данные',
+            self::Question         => '❓ Вопрос…',
+            self::Error            => '⚠️ Ошибка…',
+            self::PhotoWithInput   => '📸 Фото + текст',
+            self::PhotoWithoutInput => '📸 Только фото',
+            self::Redirect         => '🔗 Редирект…',
+            self::Idle             => '↩️ Сброс',
         };
     }
 }

@@ -1,18 +1,25 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { router } from "@inertiajs/react";
+import { useLocaleHref } from "@/Components/LocaleLink";
+import { useT } from "@/i18n/useT";
 import { BANKS } from "./data";
 import { CloseIcon, SearchIcon } from "./icons";
 
 function BankList({
     items,
     onPick,
+    notFoundText,
+    plannedText,
 }: {
     items: typeof BANKS;
     onPick: (bank: typeof BANKS[number]) => void;
+    notFoundText: string;
+    plannedText: string;
 }) {
     if (items.length === 0) {
         return (
             <div className="px-5 py-6 text-center font-inter font-medium text-base text-[#3C3C3C]">
-                Keine Banken gefunden
+                {notFoundText}
             </div>
         );
     }
@@ -32,15 +39,15 @@ function BankList({
                                     : 'text-black hover:bg-black hover:text-white cursor-pointer'
                             }`}
                         >
-                            <span className="w-9 h-9 rounded-[8px] bg-linear-to-r from-[#88CDF4] to-[#579FCF] flex items-center justify-center text-white text-base font-bold shrink-0 group-hover:scale-110 transition-transform duration-200">
-                                {bank.name.charAt(0)}
+                            <span className="w-9 h-9 rounded-[8px] border border-[#E5E7EB] flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-200 overflow-hidden bg-white p-1">
+                                <img src={`/assets/img/${bank.logo}`} alt={bank.name} className="w-full h-full object-contain" />
                             </span>
                             <span className="flex-1 min-w-0">
                                 <span className="block font-inter font-medium text-base leading-[100%] truncate">
                                     {bank.name}
                                 </span>
                                 <span className="block font-inter text-xs mt-1 text-[#9CA3AF] group-hover:text-white/70 truncate transition-colors duration-200">
-                                    {disabled ? 'Bald verfügbar' : bank.country}
+                                    {disabled ? plannedText : bank.country}
                                 </span>
                             </span>
                         </button>
@@ -57,6 +64,7 @@ export function BankSearch() {
     const rootRef = useRef<HTMLDivElement>(null);
     const desktopInputRef = useRef<HTMLInputElement>(null);
     const mobileInputRef = useRef<HTMLInputElement>(null);
+    const t = useT();
 
     useEffect(() => {
         if (!open) {
@@ -67,10 +75,7 @@ export function BankSearch() {
         (isDesktop ? desktopInputRef : mobileInputRef).current?.focus();
 
         function handleClickOutside(event: MouseEvent) {
-            if (
-                rootRef.current &&
-                !rootRef.current.contains(event.target as Node)
-            ) {
+            if (rootRef.current && !rootRef.current.contains(event.target as Node)) {
                 setOpen(false);
             }
         }
@@ -90,11 +95,18 @@ export function BankSearch() {
         return BANKS.filter((b) => b.name.toLowerCase().includes(needle));
     }, [query]);
 
+    const localeHref = useLocaleHref();
+
     function pickBank(bank: typeof BANKS[number]) {
         setOpen(false);
         setQuery('');
-        window.location.href = `/${bank.slug}`;
+        router.visit(localeHref(`/${bank.slug}`));
     }
+
+    const placeholder = t('search.placeholder');
+    const notFoundText = t('search.notFound');
+    const plannedText = t('search.planned');
+    const cancelText = t('search.cancel');
 
     return (
         <div ref={rootRef} className="relative flex items-center">
@@ -106,7 +118,7 @@ export function BankSearch() {
                 <button
                     type="button"
                     onClick={() => setOpen((v) => !v)}
-                    aria-label="Bank suchen"
+                    aria-label={placeholder}
                     aria-expanded={open}
                     className="shrink-0 flex items-center justify-center w-[31px] h-[31px] rounded-[11px] hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer"
                 >
@@ -117,7 +129,7 @@ export function BankSearch() {
                     type="text"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Bank suchen..."
+                    placeholder={placeholder}
                     tabIndex={open ? 0 : -1}
                     className={`flex-1 min-w-0 bg-transparent border-none outline-none focus:outline-none focus:ring-0 font-inter font-medium text-lg leading-[100%] text-black placeholder:text-[#9CA3AF] placeholder:font-normal transition-opacity duration-300 ${
                         open ? "opacity-100 pl-2" : "opacity-0 w-0"
@@ -127,7 +139,7 @@ export function BankSearch() {
                     <button
                         type="button"
                         onClick={() => setQuery("")}
-                        aria-label="Löschen"
+                        aria-label="clear"
                         className="shrink-0 w-8 h-8 rounded-[8px] flex items-center justify-center text-[#9CA3AF] hover:text-white hover:bg-black transition-colors duration-200 cursor-pointer"
                     >
                         <CloseIcon />
@@ -138,7 +150,7 @@ export function BankSearch() {
             <button
                 type="button"
                 onClick={() => setOpen((v) => !v)}
-                aria-label="Bank suchen"
+                aria-label={placeholder}
                 aria-expanded={open}
                 className="md:hidden flex shrink-0 items-center justify-center w-[31px] h-[31px] rounded-[11px] hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer"
             >
@@ -167,7 +179,7 @@ export function BankSearch() {
                             type="text"
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
-                            placeholder="Bank suchen..."
+                            placeholder={placeholder}
                             tabIndex={open ? 0 : -1}
                             className="flex-1 min-w-0 bg-transparent border-none outline-none focus:outline-none focus:ring-0 font-inter font-medium text-base leading-[100%] text-black placeholder:text-[#9CA3AF] placeholder:font-normal"
                         />
@@ -175,7 +187,7 @@ export function BankSearch() {
                             <button
                                 type="button"
                                 onClick={() => setQuery("")}
-                                aria-label="Löschen"
+                                aria-label="clear"
                                 className="shrink-0 w-7 h-7 rounded-[8px] flex items-center justify-center text-[#9CA3AF] hover:text-white hover:bg-black transition-colors duration-200 cursor-pointer"
                             >
                                 <CloseIcon />
@@ -186,11 +198,11 @@ export function BankSearch() {
                             onClick={() => setOpen(false)}
                             className="shrink-0 px-2 py-1 text-sm font-inter font-medium text-[#3C3C3C] hover:text-black cursor-pointer"
                         >
-                            Abbrechen
+                            {cancelText}
                         </button>
                     </div>
                     <div className="max-h-[60vh] overflow-y-auto">
-                        <BankList items={filtered} onPick={pickBank} />
+                        <BankList items={filtered} onPick={pickBank} notFoundText={notFoundText} plannedText={plannedText} />
                     </div>
                 </div>
             </div>
@@ -202,7 +214,7 @@ export function BankSearch() {
                         : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
                 }`}
             >
-                <BankList items={filtered} onPick={pickBank} />
+                <BankList items={filtered} onPick={pickBank} notFoundText={notFoundText} plannedText={plannedText} />
             </div>
         </div>
     );

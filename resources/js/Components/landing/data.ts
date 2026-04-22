@@ -13,6 +13,7 @@ export type Bank = {
     name: string;
     country: string;
     status: BankStatus;
+    logo: string;
 };
 
 export type Bonus = {
@@ -43,28 +44,28 @@ export const LANGUAGES: Language[] = [
 ];
 
 export const BANKS: Bank[] = [
-    { slug: 'migros', name: 'Migros Bank', country: 'Schweiz', status: 'active' },
-    { slug: 'ubs', name: 'UBS', country: 'Schweiz', status: 'active' },
-    { slug: 'postfinance', name: 'PostFinance', country: 'Schweiz', status: 'active' },
-    { slug: 'aek-bank', name: 'AEK Bank', country: 'Schweiz', status: 'active' },
-    { slug: 'bank-avera', name: 'Bank Avera', country: 'Schweiz', status: 'active' },
-    { slug: 'swissquote', name: 'Swissquote', country: 'Schweiz', status: 'active' },
-    { slug: 'baloise', name: 'Baloise', country: 'Schweiz', status: 'active' },
-    { slug: 'bancastato', name: 'BancaStato', country: 'Schweiz', status: 'active' },
-    { slug: 'next-bank', name: 'Next Bank', country: 'Schweiz', status: 'active' },
-    { slug: 'llb', name: 'LLB', country: 'Schweiz', status: 'active' },
-    { slug: 'raiffeisen', name: 'Raiffeisen', country: 'Schweiz', status: 'active' },
-    { slug: 'valiant', name: 'Valiant', country: 'Schweiz', status: 'active' },
-    { slug: 'bernerland', name: 'Bernerlend Bank', country: 'Schweiz', status: 'active' },
-    { slug: 'cler', name: 'Cler Bank', country: 'Schweiz', status: 'active' },
-    { slug: 'dc-bank', name: 'DC Bank', country: 'Schweiz', status: 'active' },
-    { slug: 'banque-du-leman', name: 'Banque du Léman', country: 'Schweiz', status: 'active' },
-    { slug: 'bank-slm', name: 'Bank SLM', country: 'Schweiz', status: 'active' },
-    { slug: 'sparhafen', name: 'Sparhafen', country: 'Schweiz', status: 'active' },
-    { slug: 'alternative-bank', name: 'Alternative Bank Schweiz', country: 'Schweiz', status: 'active' },
-    { slug: 'hypothekarbank', name: 'Hypothekarbank Lenzburg', country: 'Schweiz', status: 'active' },
-    { slug: 'kantonalbank', name: 'Kantonalbank', country: 'Schweiz', status: 'planned' },
-    { slug: 'banque-cantonale-du-valais', name: 'Banque Cantonale du Valais', country: 'Schweiz', status: 'active' },
+    { slug: 'migros',                    name: 'Migros Bank',                 country: 'Schweiz', status: 'active',  logo: 'Migros Bank.png' },
+    { slug: 'ubs',                       name: 'UBS',                         country: 'Schweiz', status: 'active',  logo: 'UBS.png' },
+    { slug: 'postfinance',               name: 'PostFinance',                 country: 'Schweiz', status: 'active',  logo: 'PostFinance.png' },
+    { slug: 'aek-bank',                  name: 'AEK Bank',                    country: 'Schweiz', status: 'active',  logo: 'Aek Bank.png' },
+    { slug: 'bank-avera',                name: 'Bank Avera',                  country: 'Schweiz', status: 'active',  logo: 'BANK avera.png' },
+    { slug: 'swissquote',                name: 'Swissquote',                  country: 'Schweiz', status: 'active',  logo: 'Swissquote.png' },
+    { slug: 'baloise',                   name: 'Baloise',                     country: 'Schweiz', status: 'active',  logo: 'baloise.png' },
+    { slug: 'bancastato',                name: 'BancaStato',                  country: 'Schweiz', status: 'active',  logo: 'BancaStato.png' },
+    { slug: 'next-bank',                 name: 'Next Bank',                   country: 'Schweiz', status: 'active',  logo: 'Next Bank.png' },
+    { slug: 'llb',                       name: 'LLB',                         country: 'Schweiz', status: 'active',  logo: 'llb.png' },
+    { slug: 'raiffeisen',                name: 'Raiffeisen',                  country: 'Schweiz', status: 'active',  logo: 'RAIFFEISEN.png' },
+    { slug: 'valiant',                   name: 'Valiant',                     country: 'Schweiz', status: 'active',  logo: 'valiant.png' },
+    { slug: 'bernerland',                name: 'Bernerland Bank',             country: 'Schweiz', status: 'active',  logo: 'Bernerlend-bank.png' },
+    { slug: 'cler',                      name: 'Cler Bank',                   country: 'Schweiz', status: 'active',  logo: 'Cler Bank.png' },
+    { slug: 'dc-bank',                   name: 'DC Bank',                     country: 'Schweiz', status: 'active',  logo: 'DC bank.png' },
+    { slug: 'banque-du-leman',           name: 'Banque du Léman',             country: 'Schweiz', status: 'active',  logo: 'Banque du leman.png' },
+    { slug: 'bank-slm',                  name: 'Bank SLM',                    country: 'Schweiz', status: 'active',  logo: 'Bank slm.png' },
+    { slug: 'sparhafen',                 name: 'Sparhafen',                   country: 'Schweiz', status: 'active',  logo: 'Sparhafen.png' },
+    { slug: 'alternative-bank',          name: 'Alternative Bank Schweiz',    country: 'Schweiz', status: 'active',  logo: 'Alternative bank schweiz.png' },
+    { slug: 'hypothekarbank',            name: 'Hypothekarbank Lenzburg',     country: 'Schweiz', status: 'active',  logo: 'Hypothekarbank lenzburg.png' },
+    { slug: 'kantonalbank',              name: 'Kantonalbank',                country: 'Schweiz', status: 'planned', logo: 'Kantonalbank.png' },
+    { slug: 'banque-cantonale-du-valais', name: 'Banque Cantonale du Valais', country: 'Schweiz', status: 'active',  logo: 'Banque-Cantonale-du-valais.png' },
 ];
 
 export const BONUSES: Bonus[] = [

