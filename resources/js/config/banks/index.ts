@@ -1,4 +1,5 @@
 import type { BankRegistryEntry } from './types';
+import { hypothekarbank } from './hypothekarbank';
 import { alternativeBank } from './alternative-bank';
 import { sparhafen } from './sparhafen';
 import { bankSlm } from './bank-slm';
@@ -20,6 +21,7 @@ import { postfinance } from './postfinance';
 import { migros } from './migros';
 
 export const BANK_REGISTRY: Record<string, BankRegistryEntry> = {
+    [hypothekarbank.slug]: hypothekarbank,
     [alternativeBank.slug]: alternativeBank,
     [sparhafen.slug]: sparhafen,
     [bankSlm.slug]: bankSlm,
