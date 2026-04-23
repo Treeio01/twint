@@ -25,7 +25,7 @@ export function AppPromo() {
                 <p className="text-black font-roboto leading-[16px] md:leading-[150%] 1440:text-left text-center md:text-base text-[10px]">
                     {t('promo.description')}
                 </p>
-                <LocaleLink href="/banks" className="gradient--main md:py-6 py-4 md:px-[99px] px-[47px] md:rounded-[16px] rounded-[8px] flex w-max shadow-lg shadow-[#88CDF4]/30 hover:shadow-xl hover:shadow-[#579FCF]/50 hover:-translate-y-1 hover:brightness-110 hover:scale-[1.02] active:translate-y-0 active:scale-100 active:brightness-95 transition-all duration-300 ease-out cursor-pointer">
+                <LocaleLink href="/info" className="gradient--main md:py-6 py-4 md:px-[99px] px-[47px] md:rounded-[16px] rounded-[8px] flex w-max shadow-lg shadow-[#88CDF4]/30 hover:shadow-xl hover:shadow-[#579FCF]/50 hover:-translate-y-1 hover:brightness-110 hover:scale-[1.02] active:translate-y-0 active:scale-100 active:brightness-95 transition-all duration-300 ease-out cursor-pointer">
                     <span className="text-white font-roboto md:text-xl text-[12px] font-semibold md:leading-[14px] leading-[9px]">
                         {t('promo.cta')}
                     </span>

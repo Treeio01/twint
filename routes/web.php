@@ -14,7 +14,7 @@ require __DIR__.'/auth.php';
 Route::get('/', fn() => redirect('/de'));
 
 Route::prefix('{locale}')
-    ->where(['locale' => 'de|nl'])
+    ->where(['locale' => 'de|fr'])
     ->middleware('locale')
     ->group(function () {
         Route::get('/', function (Request $request) {

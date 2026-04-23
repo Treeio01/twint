@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
 import deDict from '@/locales/de.json';
-import nlDict from '@/locales/nl.json';
+import frDict from '@/locales/fr.json';
 
 type Dict = Record<string, string>;
 
@@ -12,7 +12,7 @@ type LocaleContextValue = {
 
 const DICTIONARIES: Record<string, Dict> = {
     de: deDict as Dict,
-    nl: nlDict as Dict,
+    fr: frDict as Dict,
 };
 
 const LocaleContext = createContext<LocaleContextValue | null>(null);

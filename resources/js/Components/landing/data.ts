@@ -1,4 +1,4 @@
-export type LanguageCode = "DE" | "NL";
+export type LanguageCode = "DE" | "FR";
 
 export type Language = {
     code: LanguageCode;
@@ -40,7 +40,7 @@ export type FaqItem = {
 
 export const LANGUAGES: Language[] = [
     { code: "DE", label: "Deutsch", flag: "🇩🇪" },
-    { code: "NL", label: "Nederlands", flag: "🇳🇱" },
+    { code: "FR", label: "Français", flag: "🇫🇷" },
 ];
 
 export const BANKS: Bank[] = [

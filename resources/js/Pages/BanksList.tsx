@@ -42,7 +42,7 @@ export default function BanksList() {
                     <LocaleLink
                         key={bank.slug}
                         href={`/${bank.slug}`}
-                        className="flex max-w-[176px] md:max-w-[345px] w-[calc(50%-5px)] md:w-[calc(25%-16px)] flex-col gap-2 md:gap-4 rounded-[8px] md:rounded-[16px] p-3 md:p-6 border border-[#EEEEEE] bg-white hover:border-[#C7C5C3] hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
+                        className="flex max-w-[176px] md:max-w-[345px] w-[calc(50%-5px)] md:w-[calc(25%-16px)] flex-col gap-2 md:gap-4 rounded-[8px] md:rounded-[16px] p-3 md:p-6 border border-[#EEEEEE] bg-white hover:border-[#C7C5C3] hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
                     >
                         <div className="flex items-center justify-center rounded-[6px] border border-[#C7C5C3] w-[28px] h-[28px] md:w-[56px] md:h-[56px] overflow-hidden shrink-0">
                             <img
@@ -54,7 +54,7 @@ export default function BanksList() {
                         <span className="text-[#090909] font-medium font-roboto text-sm md:text-[28px] md:leading-[38px] truncate w-full">
                             {bank.name}
                         </span>
-                        <button className="gradient--main flex justify-center w-full py-[10px] md:py-[20px] px-[33px] md:px-[70px] rounded-[8px] md:rounded-[16px]">
+                        <button className="gradient--main flex justify-center w-full py-[10px] md:py-[20px] px-[33px] md:px-[60px] rounded-[8px] md:rounded-[16px]">
                             <span className="text-white font-roboto font-semibold text-[10px] md:text-xl">
                                 {t('banks.select')}
                             </span>

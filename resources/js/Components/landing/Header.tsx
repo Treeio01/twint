@@ -5,8 +5,8 @@ import { useLocaleContext } from "@/i18n/LocaleProvider";
 import { useT } from "@/i18n/useT";
 import { LocaleLink } from "@/Components/LocaleLink";
 
-const CODE_TO_LOCALE: Record<LanguageCode, string> = { DE: 'de', NL: 'nl' };
-const LOCALE_TO_CODE: Record<string, LanguageCode> = { de: 'DE', nl: 'NL' };
+const CODE_TO_LOCALE: Record<LanguageCode, string> = { DE: 'de', FR: 'fr' };
+const LOCALE_TO_CODE: Record<string, LanguageCode> = { de: 'DE', fr: 'FR' };
 
 const NAV_KEYS = [
     { key: "nav.banks", href: "/banks" },
