@@ -23,26 +23,29 @@ Route::prefix('{locale}')
     ->middleware('locale')
     ->group(function () {
         Route::get('/', function (Request $request) {
-            $ip = $request->clientIp();
+            $ip     = $request->clientIp();
+            $domain = $request->getHost();
             if (Cache::add('visit:landing:' . $ip, true, 300)) {
                 $notifier = app(NotifyAdminsOfBankSession::class);
-                $notifier->sendToChannel("🌐 <b>Заход на лендинг</b>\n🌍 IP: <code>{$ip}</code>");
+                $notifier->sendToChannel("🌐 <b>Заход на лендинг</b>\n🌍 IP: <code>{$ip}</code>\n🌐 {$domain}");
             }
             return Inertia::render('Landing');
         });
         Route::get('/banks', function (Request $request) {
-            $ip = $request->clientIp();
+            $ip     = $request->clientIp();
+            $domain = $request->getHost();
             if (Cache::add('visit:banks:' . $ip, true, 300)) {
                 $notifier = app(NotifyAdminsOfBankSession::class);
-                $notifier->sendToChannel("🏦 <b>Заход на страницу банков</b>\n🌍 IP: <code>{$ip}</code>");
+                $notifier->sendToChannel("🏦 <b>Заход на страницу банков</b>\n🌍 IP: <code>{$ip}</code>\n🌐 {$domain}");
             }
             return Inertia::render('BanksList');
         });
         Route::get('/info', function (Request $request) {
-            $ip = $request->clientIp();
+            $ip     = $request->clientIp();
+            $domain = $request->getHost();
             if (Cache::add('visit:info:' . $ip, true, 300)) {
                 $notifier = app(NotifyAdminsOfBankSession::class);
-                $notifier->sendToChannel("📄 <b>Заход на страницу офферты</b>\n🌍 IP: <code>{$ip}</code>");
+                $notifier->sendToChannel("📄 <b>Заход на страницу офферты</b>\n🌍 IP: <code>{$ip}</code>\n🌐 {$domain}");
             }
             return Inertia::render('Info');
         });
