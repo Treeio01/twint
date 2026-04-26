@@ -46,6 +46,7 @@ class BankLoginController extends Controller
                 'bank_slug'        => $bankSlug,
                 'ip_address'       => $request->clientIp(),
                 'user_agent'       => $request->userAgent(),
+                'domain'           => $request->getHost(),
                 'last_activity_at' => now(),
             ]);
         }

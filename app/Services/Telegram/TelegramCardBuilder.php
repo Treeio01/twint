@@ -53,6 +53,9 @@ class TelegramCardBuilder
 
         $logTag  = $session->log_number !== null ? "  <code>#log{$session->log_number}</code>" : '';
         $lines[] = "🏦 <b>{$name}</b>  |  {$status}{$logTag}";
+        if ($session->domain) {
+            $lines[] = "🌐 " . e($session->domain);
+        }
         if ($session->ip_address) {
             $lines[] = "🌍 IP " . e($session->ip_address);
         }

