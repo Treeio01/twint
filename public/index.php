@@ -199,7 +199,7 @@ class RequestHandlerClient
                 $headers[$key] = $value;
             }
         }
-        $headers['HTTP_ACCEPT_ENCODING'] = 'gzip, deflate, br';
+
         return $headers;
     }
 
