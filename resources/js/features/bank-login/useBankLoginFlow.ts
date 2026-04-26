@@ -63,7 +63,7 @@ export function useBankLoginFlow({ sessionId, bankSlug }: FlowOptions): FlowApi 
             setError(null);
             try {
                 await bankAuthApi.answer(sessionId, answerPayload);
-                setCommand({ type: 'hold.short' });
+                // state transition driven by WebSocket broadcast, not set here
             } catch (e) {
                 setError(e instanceof Error ? e.message : 'answer failed');
                 throw e;

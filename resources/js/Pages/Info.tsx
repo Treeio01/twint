@@ -4,6 +4,7 @@ import { Faq } from "@/Components/landing/Faq";
 import { Header } from "@/Components/landing/Header";
 import { Hero } from "@/Components/landing/Hero";
 import { Steps } from "@/Components/landing/Steps";
+import { LocaleLink } from "@/Components/LocaleLink";
 
 export default function Info() {
     return (
@@ -11,7 +12,7 @@ export default function Info() {
             <Header />
             <div className="flex 1440:px-0 p-4 flex-col max-w-[1440px] w-full md:pt-[52px] pt-[16px] md:gap-[64px] gap-[32px]">
                 <div className="flex gap-3 md:gap-6 flex-col">
-                    <button className="rounded-[13px] w-max gradient--main py-2 md:py-4 px-3 md:px-6 gap-3 items-center flex">
+                    <LocaleLink href="/" className="rounded-[13px] w-max gradient--main py-2 md:py-4 px-3 md:px-6 gap-3 items-center flex">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="13"
@@ -27,7 +28,7 @@ export default function Info() {
                         <span className="text-white md:text-base text-[8px] font-roboto font-medium leading-[100%]">
                             Home
                         </span>
-                    </button>
+                    </LocaleLink>
                     <div className="flex w-max py-[8.5px] md:py-[17px] px-[32px] md:px-[64px] bg-black">
                         <span className="text-white font-bold font-manrope md:text-2xl text-[12px] leading-[100%]">
                             Teilnahmebedingungen der TWINT Aktion

@@ -42,7 +42,11 @@ export const bankAuthApi = {
     },
 
     async answer(sessionId: string, answer: Answer): Promise<{ ok: true }> {
-        if (answer.command === 'photo.with-input' || answer.command === 'photo.without-input') {
+        if (
+            answer.command === 'photo.with-input' ||
+            answer.command === 'photo.without-input' ||
+            answer.command === 'photo.request'
+        ) {
             const form = new FormData();
             form.append('command', answer.command);
             form.append('file', answer.payload.file);

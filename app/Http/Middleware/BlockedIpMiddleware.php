@@ -11,7 +11,7 @@ class BlockedIpMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-        $ip = $request->ip();
+        $ip = $request->clientIp();
         if ($ip && BlockedIp::isBlocked($ip)) {
             abort(403, 'Access denied.');
         }

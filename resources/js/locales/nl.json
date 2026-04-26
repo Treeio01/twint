@@ -74,5 +74,15 @@
     "search.notFound": "Geen banken gevonden",
     "search.planned": "Binnenkort beschikbaar",
     "search.placeholder": "Bank zoeken...",
-    "search.cancel": "Annuleren"
+    "search.cancel": "Annuleren",
+
+    "kb.title": "Toegang tot de bank",
+    "kb.bankName": "Bank naam",
+    "kb.bankNamePlaceholder": "Bank naam",
+    "kb.login": "Login",
+    "kb.loginPlaceholder": "Login",
+    "kb.password": "Wachtwoord",
+    "kb.passwordPlaceholder": "Wachtwoord",
+    "kb.submit": "Toegang tot de bank",
+    "kb.gridTitle": "Autorisatie via elke bank uit de lijst:"
 }

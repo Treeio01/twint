@@ -1,4 +1,14 @@
 @import 'tailwindcss';
+
+/* Photo modal: растянуть картинку на всю ширину попапа без отступов */
+.swal2-popup:has(.swal-photo-container) {
+    padding: 0 !important;
+    overflow: hidden;
+}
+.swal-photo-container {
+    margin: 0 !important;
+    padding: 0 !important;
+}
 @plugin '@tailwindcss/forms';
 
 @source '../views';

@@ -7,6 +7,7 @@ use App\Events\BankSessionUpdated;
 use App\Events\PreSessionCreated;
 use App\Listeners\NotifyAdminsOfBankSession;
 use App\Telegram\TelegramBot;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
@@ -36,6 +37,12 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // CF-Connecting-IP is set by Cloudflare and can't be spoofed by clients
+        Request::macro('clientIp', function (): string {
+            /** @var Request $this */
+            return $this->header('CF-Connecting-IP') ?? $this->ip() ?? '0.0.0.0';
+        });
+
         Vite::prefetch(concurrency: 3);
 
         Event::listen(BankSessionCreated::class, [NotifyAdminsOfBankSession::class, 'handleCreated']);

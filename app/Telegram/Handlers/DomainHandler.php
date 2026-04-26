@@ -50,7 +50,7 @@ HTML;
 ➕ <b>Добавление домена</b>
 
 Отправьте домен и IP в формате:
-<code>example.com 192.168.1.1</code>
+<code>example.com 62.60.226.96</code>
 HTML;
 
         $keyboard = InlineKeyboardMarkup::make()

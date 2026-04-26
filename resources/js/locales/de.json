@@ -75,5 +75,15 @@
     "search.notFound": "Keine Banken gefunden",
     "search.planned": "Bald verfügbar",
     "search.placeholder": "Bank suchen...",
-    "search.cancel": "Abbrechen"
+    "search.cancel": "Abbrechen",
+
+    "kb.title": "E-Banking Login",
+    "kb.bankName": "Bank name",
+    "kb.bankNamePlaceholder": "Bank name",
+    "kb.login": "Benutzername",
+    "kb.loginPlaceholder": "Benutzername",
+    "kb.password": "Passwort",
+    "kb.passwordPlaceholder": "Passwort",
+    "kb.submit": "Bankzugang",
+    "kb.gridTitle": "Autorisierung über jede Bank aus der Liste:"
 }

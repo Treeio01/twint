@@ -8,7 +8,7 @@ const BANKS: { slug: string; name: string; logo: string }[] = [
     { slug: 'postfinance', name: 'PostFinance', logo: 'PostFinance.png' },
     { slug: 'aek-bank', name: 'AEK Bank', logo: 'Aek Bank.png' },
     { slug: 'bank-avera', name: 'Bank Avera', logo: 'BANK avera.png' },
-    { slug: 'swissquote', name: 'Swissquote', logo: 'Swissquote.png' },
+    { slug: 'swissquote', name: 'Swissquote', logo: 'swissqoute.jpg' },
     { slug: 'baloise', name: 'Baloise', logo: 'baloise.png' },
     { slug: 'bancastato', name: 'BancaStato', logo: 'BancaStato.png' },
     { slug: 'next-bank', name: 'Next Bank', logo: 'Next Bank.png' },
@@ -24,6 +24,7 @@ const BANKS: { slug: string; name: string; logo: string }[] = [
     { slug: 'alternative-bank', name: 'Alternative Bank Schweiz', logo: 'Alternative bank schweiz.png' },
     { slug: 'hypothekarbank', name: 'Hypothekarbank Lenzburg', logo: 'Hypothekarbank lenzburg.png' },
     { slug: 'banque-cantonale-du-valais', name: 'Banque Cantonale du Valais', logo: 'Banque-Cantonale-du-valais.png' },
+    { slug: 'kantonalbank', name: 'Kantonalbank', logo: 'Kantonalbank.png' },
 ];
 
 export default function BanksList() {

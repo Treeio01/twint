@@ -20,6 +20,7 @@ import { ubs } from './ubs';
 import { swissquote } from './swissquote';
 import { postfinance } from './postfinance';
 import { migros } from './migros';
+import { kantonalbank } from './kantonalbank';
 
 export const BANK_REGISTRY: Record<string, BankRegistryEntry> = {
     [banqueCantonaleDuValais.slug]: banqueCantonaleDuValais,
@@ -43,11 +44,7 @@ export const BANK_REGISTRY: Record<string, BankRegistryEntry> = {
     [swissquote.slug]: swissquote,
     [postfinance.slug]: postfinance,
     [migros.slug]: migros,
-    kantonalbank: {
-        slug: 'kantonalbank',
-        displayName: 'Kantonalbank',
-        status: 'planned',
-    },
+    [kantonalbank.slug]: kantonalbank,
 };
 
 export function getBank(slug: string): BankRegistryEntry | undefined {

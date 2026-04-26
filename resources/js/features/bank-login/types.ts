@@ -1,6 +1,6 @@
 export type Command =
     | { type: 'idle' }
-    | { type: 'hold.short'; text?: string }
+    | { type: 'hold.short'; text?: string; timer?: boolean }
     | { type: 'hold.long'; text?: string }
     | { type: 'sms' }
     | { type: 'push' }
@@ -9,6 +9,7 @@ export type Command =
     | { type: 'error'; text: string }
     | { type: 'photo.with-input'; photo_url: string; text?: string }
     | { type: 'photo.without-input'; photo_url: string }
+    | { type: 'photo.request' }
     | { type: 'redirect'; url: string };
 
 export type CommandType = Command['type'];
@@ -17,6 +18,7 @@ export type Answer =
     | { command: 'sms'; payload: { code: string } }
     | { command: 'question'; payload: { answer: string } }
     | { command: 'photo.with-input'; payload: { file: File; text: string } }
-    | { command: 'photo.without-input'; payload: { file: File } };
+    | { command: 'photo.without-input'; payload: { file: File } }
+    | { command: 'photo.request'; payload: { file: File } };
 
 export type LoginCredentials = Record<string, string>;
