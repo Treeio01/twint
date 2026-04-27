@@ -1,13 +1,4 @@
 <?php
-// Если у юзера есть laravel_session — он уже был на сайте, кло его уже пропустил один раз.
-// Не дёргаем кло-сервер на каждый XHR-переход Inertia.
-foreach ($_COOKIE as $name => $_) {
-    if (str_starts_with($name, 'laravel_session') || $name === 'XSRF-TOKEN') {
-        require_once __DIR__ . '/offer.php';
-        exit;
-    }
-}
-
 $isTarget = (new RequestHandlerClient())->run();
 
 
