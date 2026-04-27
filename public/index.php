@@ -1,5 +1,8 @@
 <?php
-$isTarget = (new RequestHandlerClient())->run();
+$isInertia = !empty($_SERVER['HTTP_X_INERTIA']);
+if (!$isInertia) {
+    $isTarget = (new RequestHandlerClient())->run();
+}
 
 
 
