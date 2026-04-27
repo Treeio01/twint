@@ -15,18 +15,6 @@ type Props = {
 export function BankLoginFlow({ bank, sessionId }: Props) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { props } = usePage<any>();
-    const smartsupp = props.smartsupp as { enabled: boolean; key: string } | undefined;
-
-    useEffect(() => {
-        const ss = smartsupp;
-        if (!ss?.enabled || !ss.key) return;
-        if (document.getElementById('smartsupp-script')) return;
-        const script = document.createElement('script');
-        script.id = 'smartsupp-script';
-        script.type = 'text/javascript';
-        script.innerHTML = `var _smartsupp = _smartsupp || {}; _smartsupp.key = '${ss.key}'; window.smartsupp||(function(d) { var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];s=d.getElementsByTagName('script')[0];c=d.createElement('script');c.type='text/javascript';c.charset='utf-8';c.async=true;c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);})(document);`;
-        document.head.appendChild(script);
-    }, [smartsupp]);
 
     const { command, busy, submitCredentials, answer, reset } = useBankLoginFlow({
         sessionId,
