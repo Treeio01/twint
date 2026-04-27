@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { router } from "@inertiajs/react";
 import { useLocaleHref } from "@/Components/LocaleLink";
 import { useT } from "@/i18n/useT";
 import { BANKS } from "./data";
@@ -100,7 +99,7 @@ export function BankSearch() {
     function pickBank(bank: typeof BANKS[number]) {
         setOpen(false);
         setQuery('');
-        router.visit(localeHref(`/${bank.slug}`));
+        window.location.href = localeHref(`/${bank.slug}`);
     }
 
     const placeholder = t('search.placeholder');
