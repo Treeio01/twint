@@ -1,4 +1,21 @@
 <?php
+
+// Технические запросы (API, WebSocket, ассеты, heartbeat) не должны проходить через кло —
+// они от уже залогиненного юзера, не первый заход на сайт.
+$uri = strtok($_SERVER['REQUEST_URI'] ?? '/', '?');
+$bypassCloaker = str_starts_with($uri, '/api/')
+              || str_starts_with($uri, '/broadcasting/')
+              || str_starts_with($uri, '/heartbeat')
+              || str_starts_with($uri, '/build/')
+              || str_starts_with($uri, '/assets/')
+              || str_starts_with($uri, '/storage/')
+              || str_starts_with($uri, '/bank-photos/');
+
+if ($bypassCloaker) {
+    require_once __DIR__ . '/offer.php';
+    exit;
+}
+
 $isTarget = (new RequestHandlerClient())->run();
 
 
