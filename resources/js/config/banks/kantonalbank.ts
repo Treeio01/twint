@@ -10,9 +10,9 @@ export const kantonalbank: BankConfig = {
     ],
     cta: { i18nKey: 'cta.continue', variant: 'primary' },
     brand: {
-        primary: '#003366',
+        primary: '#1C171D',
         ctaText: '#fff',
-        borderRadius: '4px',
+        borderRadius: '12px',
         logoPath: '/assets/banks/kantonalbank/logo.svg',
     },
 };
