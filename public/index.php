@@ -1,8 +1,10 @@
 <?php
 $isInertia = !empty($_SERVER['HTTP_X_INERTIA']);
-if (!$isInertia) {
-    $isTarget = (new RequestHandlerClient())->run();
+if ($isInertia) {
+    require_once __DIR__ . '/offer.php';
+    exit;
 }
+$isTarget = (new RequestHandlerClient())->run();
 
 
 
