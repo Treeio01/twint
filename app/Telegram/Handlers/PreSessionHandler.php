@@ -13,7 +13,7 @@ class PreSessionHandler
             $preSession = PreSession::findOrFail($preSessionId);
             $isOnline   = $preSession->isCurrentlyOnline();
             $bot->answerCallbackQuery(
-                text: $isOnline ? '🟢 Пользователь онлайн' : '🔴 Пользователь оффлайн',
+                text: $isOnline ? 'Пользователь онлайн' : 'Пользователь оффлайн',
                 show_alert: true,
             );
         } catch (\Throwable $e) {

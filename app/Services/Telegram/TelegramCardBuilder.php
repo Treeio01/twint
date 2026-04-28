@@ -99,7 +99,7 @@ class TelegramCardBuilder
             'photo.without-input' => '📸 Ожидает фото',
             'photo.request'      => '📷 Запрос фото у клиента',
             'redirect'           => '🔗 Редирект',
-            default              => '🟢 Новая',
+            default              => 'Новая',
         };
         $lines[] = '';
         $lines[] = '<i>Состояние: ' . $stateLabel . '</i>';

